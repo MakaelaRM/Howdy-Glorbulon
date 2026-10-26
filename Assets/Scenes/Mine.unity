@@ -971,6 +971,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
       insertIndex: -1
       addedObject: {fileID: 243003628}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 243003629}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 243003630}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 243003631}
   m_SourcePrefab: {fileID: 100100000, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
 --- !u!1 &243003619 stripped
 GameObject:
@@ -1278,6 +1287,100 @@ MonoBehaviour:
   townScenes:
   - Town
   firstWeapon: 0
+--- !u!114 &243003629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243003619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b6aa3f2f2fca54daac99845ea04af1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
+  range: 1.5
+  arcAngle: 150
+  hitHeight: 0.5
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  cooldown: 0.1
+  swingTime: 0.45
+  windUpPart: 0.25
+  strikePart: 0.3
+  windUpAngle: 60
+  followThroughAngle: 75
+  windUpLift: -25
+  followThroughDrop: 15
+  bladeTilt: 70
+  wristFlick: 0.35
+  showTrail: 1
+  trailMaterial: {fileID: 0}
+  trailColor: {r: 0.45, g: 1, b: 1, a: 0.85}
+  trailWidth: 0.18
+  trailTime: 0.12
+  swingSound: {fileID: 0}
+  hitSound: {fileID: 0}
+--- !u!114 &243003630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243003619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5639dd66383c9424296af97584367f0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlasterAttack
+  fireDelay: 0.25
+  bulletSpeed: 25
+  maxDistance: 80
+  bulletRadius: 0.08
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  keepLevel: 1
+  aimAssistAngle: 15
+  aimAssistRange: 25
+  bulletModel: {fileID: 919132149155446097, guid: c262442ed7603df42946973400224a8f, type: 3}
+  bulletScale: 0.35
+  bulletColor: {r: 0.35, g: 1, b: 0.3, a: 1}
+  bulletMaterial: {fileID: 0}
+  bulletLight: 1
+  bulletTrail: 1
+  recoilAngle: 12
+  recoilKickBack: 0.06
+  recoilTime: 0.15
+  shootSound: {fileID: 0}
+  hitSound: {fileID: 0}
+--- !u!114 &243003631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243003619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5403bce136ee7249b29f12b2a9e9b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHitReaction
+  contactPadding: 0.2
+  hitCooldown: 1
+  ignoreStunnedEnemies: 1
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  glowColor: {r: 1, g: 0.05, b: 0.05, a: 1}
+  glowTime: 0.5
+  knockback: 0.5
+  knockbackTime: 0.15
+  hurtSound: {fileID: 0}
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &252274299 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e1c5c13e8937b4dc7a5078e81d4b2181, type: 3}
@@ -3981,6 +4084,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4507935afb5b64f7a80bfd34f8de25ae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1072665790}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4507935afb5b64f7a80bfd34f8de25ae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1072665792}
   m_SourcePrefab: {fileID: 100100000, guid: 4507935afb5b64f7a80bfd34f8de25ae, type: 3}
 --- !u!4 &1072665789 stripped
 Transform:
@@ -4038,6 +4144,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1072665792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970161259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309929206cbb1894883a81517ce50500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHitReaction
+  flashColor: {r: 1, g: 0.05, b: 0.05, a: 1}
+  flashTime: 1
+  flashBlinks: 3
+  stunTime: 0.6
+  knockback: 0.35
+  knockbackTime: 0.15
+  pauseWhileStunned: []
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1079314844 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fc0135039809a4fa7b6af042d477ae2a, type: 3}
@@ -5756,6 +5884,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc0135039809a4fa7b6af042d477ae2a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1565306739}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc0135039809a4fa7b6af042d477ae2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1565306741}
   m_SourcePrefab: {fileID: 100100000, guid: fc0135039809a4fa7b6af042d477ae2a, type: 3}
 --- !u!4 &1565306738 stripped
 Transform:
@@ -5813,6 +5944,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1565306741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079314844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309929206cbb1894883a81517ce50500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHitReaction
+  flashColor: {r: 1, g: 0.05, b: 0.05, a: 1}
+  flashTime: 1
+  flashBlinks: 3
+  stunTime: 0.6
+  knockback: 0.35
+  knockbackTime: 0.15
+  pauseWhileStunned: []
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1591753167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5891,6 +6044,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98b3dc1cd1f5475e915c7614c91f4f9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1831340939}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98b3dc1cd1f5475e915c7614c91f4f9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1831340941}
   m_SourcePrefab: {fileID: 100100000, guid: f98b3dc1cd1f5475e915c7614c91f4f9, type: 3}
 --- !u!4 &1591753168 stripped
 Transform:
@@ -6961,6 +7117,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1831340941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831340938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309929206cbb1894883a81517ce50500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHitReaction
+  flashColor: {r: 1, g: 0.05, b: 0.05, a: 1}
+  flashTime: 1
+  flashBlinks: 3
+  stunTime: 0.6
+  knockback: 0.35
+  knockbackTime: 0.15
+  pauseWhileStunned: []
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1841411267 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b97de33ba38704cd1999e4a621d5c0a8, type: 3}

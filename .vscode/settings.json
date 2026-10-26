@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Alien Game.slnx"
+    "dotnet.defaultSolution": "Howdy-Glorbulon.slnx"
 }

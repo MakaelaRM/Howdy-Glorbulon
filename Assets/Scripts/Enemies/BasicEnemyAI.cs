@@ -57,6 +57,14 @@ namespace AlienWildWest
         Vector3 baseScale;
         float groundY;
         float t;
+        float stunTimer;
+
+        public bool IsStunned => stunTimer > 0f;
+
+        public void Stun(float seconds)
+        {
+            stunTimer = Mathf.Max(stunTimer, seconds);
+        }
 
         void Start()
         {
@@ -79,8 +87,36 @@ namespace AlienWildWest
         void OnEnable() { All.Add(this); }
         void OnDisable() { All.Remove(this); }
 
+        void StunnedPose()
+        {
+            float hop = Mathf.Max(0.1f, hopTime);
+            t = Mathf.Floor(t / hop) * hop;
+
+            Vector3 pos = transform.position;
+            pos.y = Mathf.MoveTowards(pos.y, groundY, 4f * Time.deltaTime);
+            transform.position = pos;
+
+            float shake = 1f + 0.06f * Mathf.Sin(Time.time * 50f);
+            Vector3 wobble = Vector3.Scale(baseScale, new Vector3(shake, 1f / shake, shake));
+            transform.localScale = Vector3.Lerp(transform.localScale, wobble, 20f * Time.deltaTime);
+
+            if (jaw)
+            {
+                float ang = openAngle * 0.7f;
+                if (invertJaw) ang = -ang;
+                jaw.localRotation = Quaternion.Slerp(jaw.localRotation, jawRest * Quaternion.Euler(ang, 0f, 0f), 12f * Time.deltaTime);
+            }
+        }
+
         void Update()
         {
+            if (stunTimer > 0f)
+            {
+                stunTimer -= Time.deltaTime;
+                StunnedPose();
+                return;
+            }
+
             float prev = t;
             t += Time.deltaTime;
             float hop = Mathf.Max(0.1f, hopTime);
