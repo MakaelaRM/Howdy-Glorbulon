@@ -3,6 +3,7 @@ using UnityEngine;
 public class BlasterBullet : MonoBehaviour
 {
     public Transform owner;
+    public BlasterAttack shooter;
     public Vector3 direction = Vector3.forward;
     public float speed = 25f;
     public float maxDistance = 80f;
@@ -80,7 +81,11 @@ public class BlasterBullet : MonoBehaviour
         done = true;
 
         EnemyHitReaction enemy = EnemyHitReaction.FindOn(c);
-        if (enemy != null) enemy.TakeHit(point - direction);
+        if (enemy != null && !EnemyStats.IsDeadOn(enemy))
+        {
+            enemy.TakeHit(point - direction);
+            if (shooter != null) shooter.GiveDamage(EnemyStats.On(enemy));
+        }
 
         BlasterImpact.Spawn(point, normal, impactColor, impactMaterial, sparkMaterial, 1f, true);
         if (hitSound != null) AudioSource.PlayClipAtPoint(hitSound, point);

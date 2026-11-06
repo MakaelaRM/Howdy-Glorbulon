@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class BlasterAttack : MonoBehaviour
 {
     [Header("Shooting")]
+    [Tooltip("Damage per bullet.")]
+    public float damage = 20f;
     [Tooltip("Seconds between shots.")]
     public float fireDelay = 0.25f;
     [Tooltip("Bullet speed in metres per second.")]
@@ -200,7 +202,7 @@ public class BlasterAttack : MonoBehaviour
         {
             if (c.transform.IsChildOf(transform)) continue;
             EnemyHitReaction enemy = EnemyHitReaction.FindOn(c);
-            if (enemy == null || enemy == best) continue;
+            if (enemy == null || enemy == best || EnemyStats.IsDeadOn(enemy)) continue;
 
             Vector3 to = enemy.Center - muzzlePos;
             to.y = 0f;
@@ -285,6 +287,7 @@ public class BlasterAttack : MonoBehaviour
 
         BlasterBullet bullet = go.AddComponent<BlasterBullet>();
         bullet.owner = transform;
+        bullet.shooter = this;
         bullet.direction = dir;
         bullet.speed = bulletSpeed;
         bullet.maxDistance = maxDistance;
@@ -295,6 +298,25 @@ public class BlasterAttack : MonoBehaviour
         bullet.sparkMaterial = fx;
         bullet.hitSound = hitSound;
         bullet.Launch(castStart);
+    }
+
+    public void GiveDamage(EnemyStats enemy)
+    {
+        if (enemy == null || enemy.IsDead || damage <= 0f) return;
+
+        if (enemy.Shield > 0f)
+        {
+            if (damage <= enemy.Shield) enemy.SetShield(enemy.Shield - damage);
+            else enemy.SetShield(0f);
+        }
+        else if (damage < enemy.Health)
+        {
+            enemy.SetHealth(enemy.Health - damage);
+        }
+        else
+        {
+            enemy.Die();
+        }
     }
 
     GameObject FallbackBullet()
