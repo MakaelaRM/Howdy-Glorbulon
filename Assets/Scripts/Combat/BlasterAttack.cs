@@ -45,6 +45,7 @@ public class BlasterAttack : MonoBehaviour
     public AudioClip hitSound;
 
     WeaponSwap weapons;
+    BlasterHeat heat;
     CharacterMovement movement;
     AudioSource audioSource;
     float fireTimer;
@@ -60,6 +61,7 @@ public class BlasterAttack : MonoBehaviour
     void Awake()
     {
         weapons = GetComponent<WeaponSwap>();
+        heat = GetComponent<BlasterHeat>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -87,6 +89,7 @@ public class BlasterAttack : MonoBehaviour
     bool CanShoot()
     {
         if (!weapons.GunOut || weapons.IsSwapping) return false;
+        if (heat != null && !heat.CanFire) return false;
         if (Time.timeScale <= 0f) return false;
         if (movement != null && movement.inventoryUI != null && movement.inventoryUI.activeInHierarchy) return false;
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return false;
@@ -98,7 +101,11 @@ public class BlasterAttack : MonoBehaviour
         if (shotQueued)
         {
             shotQueued = false;
-            if (weapons.GunOut && !weapons.IsSwapping && Fire()) recoilTimer = 0f;
+            if (weapons.GunOut && !weapons.IsSwapping && (heat == null || heat.CanFire) && Fire())
+            {
+                recoilTimer = 0f;
+                if (heat != null) heat.AddShot();
+            }
         }
 
         if (recoilTimer < 0f) return;

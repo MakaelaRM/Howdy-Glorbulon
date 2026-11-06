@@ -77,6 +77,7 @@ public class WeaponSwap : MonoBehaviour
     public bool IsSwapping => swapping;   // other scripts can block attacks while this is true
     public bool MeleeOut => CurrentIndex == 0;
     public bool GunOut => CurrentIndex == 1;
+    public int VisibleIndex => visualIndex;
 
     static int lastWeapon = -1; // remembered between scenes
 
