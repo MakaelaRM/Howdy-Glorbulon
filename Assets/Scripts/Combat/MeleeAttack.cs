@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class MeleeAttack : MonoBehaviour
 {
     [Header("Hit")]
+    [Tooltip("Damage per swipe.")]
+    public float damage = 40f;
     [Tooltip("How far the swipe reaches from the player, in metres.")]
     public float range = 1.5f;
     [Tooltip("Width of the swipe in degrees. 180 = everything in front of him.")]
@@ -204,7 +206,7 @@ public class MeleeAttack : MonoBehaviour
             if (c == null || c.transform.IsChildOf(transform)) continue;
 
             EnemyHitReaction enemy = EnemyHitReaction.FindOn(c);
-            if (enemy == null || hitThisSwing.Contains(enemy)) continue;
+            if (enemy == null || hitThisSwing.Contains(enemy) || EnemyStats.IsDeadOn(enemy)) continue;
 
             Vector3 to = enemy.transform.position - transform.position;
             to.y = 0f;
@@ -212,10 +214,30 @@ public class MeleeAttack : MonoBehaviour
 
             hitThisSwing.Add(enemy);
             enemy.TakeHit(transform.position);
+            GiveDamage(EnemyStats.On(enemy));
             hitSomething = true;
         }
 
         if (hitSomething && hitSound != null && audioSource != null) audioSource.PlayOneShot(hitSound);
+    }
+
+    public void GiveDamage(EnemyStats enemy)
+    {
+        if (enemy == null || enemy.IsDead || damage <= 0f) return;
+
+        if (enemy.Shield > 0f)
+        {
+            if (damage <= enemy.Shield) enemy.SetShield(enemy.Shield - damage);
+            else enemy.SetShield(0f);
+        }
+        else if (damage < enemy.Health)
+        {
+            enemy.SetHealth(enemy.Health - damage);
+        }
+        else
+        {
+            enemy.Die();
+        }
     }
 
     Vector3 FindTip(Transform weapon)

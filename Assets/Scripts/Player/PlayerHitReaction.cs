@@ -37,6 +37,7 @@ public class PlayerHitReaction : MonoBehaviour
     readonly List<EnemyHitReaction> expired = new List<EnemyHitReaction>();
     CharacterController controller;
     AudioSource audioSource;
+    PlayerStats stats;
     Renderer[] renderers;
     int[][] colorIds;
     Color[][] baseColors;
@@ -48,6 +49,7 @@ public class PlayerHitReaction : MonoBehaviour
     void Awake()
     {
         controller = GetComponent<CharacterController>();
+        stats = GetComponent<PlayerStats>();
         audioSource = GetComponent<AudioSource>();
         block = new MaterialPropertyBlock();
     }
@@ -126,6 +128,7 @@ public class PlayerHitReaction : MonoBehaviour
     void CheckContacts()
     {
         if (Time.timeScale <= 0f) return;
+        if (stats != null && stats.IsDead) return;
 
         Vector3 p1, p2;
         float radius;
@@ -152,6 +155,7 @@ public class PlayerHitReaction : MonoBehaviour
             EnemyHitReaction enemy = EnemyHitReaction.FindOn(c);
             if (enemy == null) continue;
             if (ignoreStunnedEnemies && enemy.IsStunned) continue;
+            if (EnemyStats.IsDeadOn(enemy)) continue;
             if (nextHitTime.TryGetValue(enemy, out float allowedAt) && Time.time < allowedAt) continue;
 
             nextHitTime[enemy] = Time.time + hitCooldown;
@@ -184,6 +188,13 @@ public class PlayerHitReaction : MonoBehaviour
         if (hurtSound != null && audioSource != null) audioSource.PlayOneShot(hurtSound);
         onHit.Invoke();
         Hit?.Invoke(enemy);
+
+        if (enemy != null)
+        {
+            if (stats == null) stats = GetComponent<PlayerStats>();
+            if (stats == null) stats = PlayerStats.Instance;
+            if (stats != null) stats.TakeDamage(EnemyStats.On(enemy));
+        }
     }
 
     void ApplyGlow(float amount)

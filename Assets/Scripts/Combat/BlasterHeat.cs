@@ -39,19 +39,37 @@ public class BlasterHeat : MonoBehaviour
     public event Action Overheated;
     public event Action Cooled;
 
-    public float Heat { get; private set; }
-    public bool IsOverheated { get; private set; }
+    static float heat;
+    static bool overheated;
+    static float sinceShot = float.MaxValue;
+
+    public float Heat { get => heat; private set => heat = value; }
+    public bool IsOverheated { get => overheated; private set => overheated = value; }
     public bool CanFire => !IsOverheated;
 
     WeaponSwap weapons;
     AudioSource audioSource;
-    float sinceShot = float.MaxValue;
     float pose;
 
     void Awake()
     {
         weapons = GetComponent<WeaponSwap>();
         audioSource = GetComponent<AudioSource>();
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() => ClearHeat();
+
+    static void ClearHeat()
+    {
+        heat = 0f;
+        overheated = false;
+        sinceShot = float.MaxValue;
+    }
+
+    void Start()
+    {
+        if (PlayerStats.Instance == null || !PlayerStats.CarriedOver) ClearHeat();
     }
 
     public void AddShot() => AddHeat(heatPerShot);
