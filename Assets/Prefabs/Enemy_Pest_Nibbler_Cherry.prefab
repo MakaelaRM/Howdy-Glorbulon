@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3198433238648839943
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      propertyPath: m_Name
+      value: Enemy_Pest_Nibbler_Cherry
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6087584767514359599}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4913303545355371122}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8736863347543535038}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1841404628040220305}
+  m_SourcePrefab: {fileID: 100100000, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+--- !u!1 &2351573640337318486 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b884806f4421b484f91ea868423abbdb, type: 3}
+  m_PrefabInstance: {fileID: 3198433238648839943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6087584767514359599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2351573640337318486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c77b256c879e4b27959f53d3e6c0914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlienWildWest.PestChomper
+  target: {fileID: 0}
+  moveTowardTarget: 1
+  stopDistance: 0.7
+  personalSpace: 0.6
+  separationStrength: 3
+  hopHeight: 0.35
+  hopTime: 0.55
+  hopDistance: 0.7
+  squash: 0.22
+  turnSpeed: 540
+  biteRange: 1.6
+  openAngle: 22
+  closedAngle: -10
+  invertJaw: 0
+  phase: 0
+  onBite:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4913303545355371122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2351573640337318486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309929206cbb1894883a81517ce50500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHitReaction
+  flashColor: {r: 1, g: 0.05, b: 0.05, a: 1}
+  flashTime: 1
+  flashBlinks: 3
+  stunTime: 0.6
+  knockback: 0.35
+  knockbackTime: 0.15
+  pauseWhileStunned: []
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-8736863347543535038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2351573640337318486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaaa7be0965530f4b947514ee47b671d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
+  maxHealth: 50
+  maxShield: 0
+  shieldRecharge: 5
+  shieldRechargeDelay: 3
+  shouldRespawn: 1
+  damage: 30
+--- !u!65 &-1841404628040220305
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2351573640337318486}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}

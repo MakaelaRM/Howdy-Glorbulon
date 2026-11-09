@@ -12,10 +12,13 @@ public class EnemyStats : MonoBehaviour
     [SerializeField, Min(0f)] private float shieldRecharge = 5f;
     [Tooltip("Seconds without taking damage before the shield starts recharging.")]
     [SerializeField, Min(0f)] private float shieldRechargeDelay = 3f;
+    [SerializeField] private bool shouldRespawn = true;
 
     [Header("Attack")]
     [Tooltip("Damage dealt to the player on contact.")]
     [SerializeField, Min(0f)] private float damage = 30f;
+    
+    
 
     private float health;
     private float shield;
@@ -31,7 +34,7 @@ public class EnemyStats : MonoBehaviour
     public float MaxShield => maxShield;
     public float Damage => damage;
     public bool IsDead { get; private set; }
-
+    public bool ShouldRespawn{get => shouldRespawn; set => shouldRespawn = value;}
     public static EnemyStats On(EnemyHitReaction enemy)
     {
         if (enemy == null) return null;
@@ -84,7 +87,7 @@ public class EnemyStats : MonoBehaviour
         IsDead = true;
         health = 0f;
         Died?.Invoke();
-        death.Play(Respawn);
+        death.Play(Respawn, shouldRespawn);
     }
 
     private void Respawn()
