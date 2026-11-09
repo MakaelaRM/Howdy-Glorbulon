@@ -1313,12 +1313,6 @@ MonoBehaviour:
   extraPerLevel: 25
   maxHealth: 100
   maxShield: 50
-  shieldRecharge: 5
-  shieldRechargeDelay: 3
-  combatScenes:
-  - Mine
-  - MineLevel1
-  - MineLevel2
 --- !u!114 &243003624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1498,7 +1492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b6aa3f2f2fca54daac99845ea04af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
-  damage: 40
   range: 1.5
   arcAngle: 150
   hitHeight: 0.5
@@ -1534,7 +1527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5639dd66383c9424296af97584367f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlasterAttack
-  damage: 20
   fireDelay: 0.25
   bulletSpeed: 25
   maxDistance: 80
@@ -9596,59 +9588,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 96b93360b6b204526ab19ef4bd0f0c07, type: 3}
   m_PrefabInstance: {fileID: 1664854168}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1973798062
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1973798064}
-  - component: {fileID: 1973798063}
-  m_Layer: 0
-  m_Name: MineLevel2Exit
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &1973798063
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1973798062}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2, y: 3, z: 2}
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!4 &1973798064
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1973798062}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 281.54, y: -0.03, z: -4.26}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 40, z: 0}
 --- !u!1 &1977911515
 GameObject:
   m_ObjectHideFlags: 0
@@ -10044,7 +9983,6 @@ SceneRoots:
   - {fileID: 1977911517}
   - {fileID: 862721759}
   - {fileID: 1859372273}
-  - {fileID: 1973798064}
   - {fileID: 1816510043}
   - {fileID: 1441835337}
   - {fileID: 1267606717}
