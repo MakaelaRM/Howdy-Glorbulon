@@ -70,13 +70,13 @@ public class DeathRespawn : MonoBehaviour
         if (b != null && !extraPaused.Contains(b)) extraPaused.Add(b);
     }
 
-    public void Play(Action onRespawn)
+    public void Play(Action onRespawn, bool respawn = true)
     {
         if (IsPlaying) return;
-        StartCoroutine(Run(onRespawn));
+        StartCoroutine(Run(onRespawn, respawn));
     }
 
-    IEnumerator Run(Action onRespawn)
+    IEnumerator Run(Action onRespawn, bool respawn)
     {
         IsPlaying = true;
         SetPaused(true);
@@ -100,6 +100,13 @@ public class DeathRespawn : MonoBehaviour
         SpawnSmoke(RendererBounds().center, smokeSize, smokeColor);
         SetHidden(true);
         SetEnabled(pauseWhenGone, false);
+
+        // Permanent death: stay hidden and switched off.
+        if (!respawn)
+        {
+            IsPlaying = false;
+            yield break;
+        }
 
         yield return new WaitForSeconds(respawnDelay);
 
