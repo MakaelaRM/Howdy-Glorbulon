@@ -1171,6 +1171,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
       insertIndex: -1
       addedObject: {fileID: 243003632}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 243003633}
   m_SourcePrefab: {fileID: 100100000, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
 --- !u!1 &243003619 stripped
 GameObject:
@@ -1313,6 +1316,12 @@ MonoBehaviour:
   extraPerLevel: 25
   maxHealth: 100
   maxShield: 50
+  shieldRecharge: 5
+  shieldRechargeDelay: 3
+  combatScenes:
+  - Mine
+  - MineLevel1
+  - MineLevel2
 --- !u!114 &243003624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1492,6 +1501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b6aa3f2f2fca54daac99845ea04af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
+  damage: 40
   range: 1.5
   arcAngle: 150
   hitHeight: 0.5
@@ -1527,6 +1537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5639dd66383c9424296af97584367f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlasterAttack
+  damage: 20
   fireDelay: 0.25
   bulletSpeed: 25
   maxDistance: 80
@@ -1597,6 +1608,31 @@ MonoBehaviour:
   ventShake: 2.5
   overheatSound: {fileID: 0}
   cooledSound: {fileID: 0}
+--- !u!114 &243003633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243003619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c851fbab723b4dae8d300faf638cabe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAim
+  assistRange: 12
+  cursorSnap: 0.07
+  lateralAssistAngle: 20
+  depthAssistAngle: 50
+  stickiness: 0.25
+  showArrow: 1
+  arrowColor: {r: 0.35, g: 1, b: 0.3, a: 0.9}
+  arrowTargetColor: {r: 0.6, g: 1, b: 0.45, a: 1}
+  arrowStart: 0.6
+  chevronSize: 0.2
+  chevronThickness: 0.075
+  arrowMaterial: {fileID: 0}
+  faceAfterAttackTime: 0.45
 --- !u!1 &252274299 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e1c5c13e8937b4dc7a5078e81d4b2181, type: 3}
@@ -2934,6 +2970,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
   controller: {fileID: 243003625}
   inventoryUI: {fileID: 1113333601}
+  facing: 0
+  faceAimWhenIdle: 1
+  aimTurnSpeed: 20
   moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   sprintAction: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -3828,6 +3867,59 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &857217447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 857217450}
+  - component: {fileID: 857217449}
+  m_Layer: 0
+  m_Name: MineLevel2Exit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &857217449
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857217447}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 3, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!4 &857217450
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857217447}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 280.24, y: -0.03, z: -5.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
 --- !u!1 &862721756
 GameObject:
   m_ObjectHideFlags: 0
@@ -4810,6 +4902,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4507935afb5b64f7a80bfd34f8de25ae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1072665792}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4507935afb5b64f7a80bfd34f8de25ae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1072665793}
   m_SourcePrefab: {fileID: 100100000, guid: 4507935afb5b64f7a80bfd34f8de25ae, type: 3}
 --- !u!4 &1072665789 stripped
 Transform:
@@ -4889,6 +4984,30 @@ MonoBehaviour:
   onHit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1072665793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970161259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f7fe378114144da858744db458b9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AimTarget
+  aimHeight: 0.25
+  canBeTargeted: 1
+  showRing: 1
+  ringRadius: 0.32
+  ringWidth: 0.045
+  ringColor: {r: 1, g: 0.35, b: 0.45, a: 0.85}
+  targetedColor: {r: 1, g: 0.85, b: 0.25, a: 1}
+  targetedScale: 1.35
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  ringMaterial: {fileID: 0}
 --- !u!1 &1072731388
 GameObject:
   m_ObjectHideFlags: 0
@@ -7303,6 +7422,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc0135039809a4fa7b6af042d477ae2a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1565306741}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc0135039809a4fa7b6af042d477ae2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1565306742}
   m_SourcePrefab: {fileID: 100100000, guid: fc0135039809a4fa7b6af042d477ae2a, type: 3}
 --- !u!4 &1565306738 stripped
 Transform:
@@ -7382,6 +7504,30 @@ MonoBehaviour:
   onHit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1565306742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079314844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f7fe378114144da858744db458b9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AimTarget
+  aimHeight: 0.25
+  canBeTargeted: 1
+  showRing: 1
+  ringRadius: 0.32
+  ringWidth: 0.045
+  ringColor: {r: 1, g: 0.35, b: 0.45, a: 0.85}
+  targetedColor: {r: 1, g: 0.85, b: 0.25, a: 1}
+  targetedScale: 1.35
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  ringMaterial: {fileID: 0}
 --- !u!1001 &1591753167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7463,6 +7609,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98b3dc1cd1f5475e915c7614c91f4f9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1831340941}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98b3dc1cd1f5475e915c7614c91f4f9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1831340942}
   m_SourcePrefab: {fileID: 100100000, guid: f98b3dc1cd1f5475e915c7614c91f4f9, type: 3}
 --- !u!4 &1591753168 stripped
 Transform:
@@ -8692,6 +8841,30 @@ MonoBehaviour:
   onHit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1831340942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831340938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f7fe378114144da858744db458b9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AimTarget
+  aimHeight: 0.25
+  canBeTargeted: 1
+  showRing: 1
+  ringRadius: 0.32
+  ringWidth: 0.045
+  ringColor: {r: 1, g: 0.35, b: 0.45, a: 0.85}
+  targetedColor: {r: 1, g: 0.85, b: 0.25, a: 1}
+  targetedScale: 1.35
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  ringMaterial: {fileID: 0}
 --- !u!1 &1841411267 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b97de33ba38704cd1999e4a621d5c0a8, type: 3}
@@ -9983,6 +10156,7 @@ SceneRoots:
   - {fileID: 1977911517}
   - {fileID: 862721759}
   - {fileID: 1859372273}
+  - {fileID: 857217450}
   - {fileID: 1816510043}
   - {fileID: 1441835337}
   - {fileID: 1267606717}

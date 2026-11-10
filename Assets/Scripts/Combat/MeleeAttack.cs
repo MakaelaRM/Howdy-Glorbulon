@@ -100,6 +100,9 @@ public class MeleeAttack : MonoBehaviour
 
     void StartSwing()
     {
+        // Swing toward the nearest aimed enemy if one is in reach, otherwise toward the mouse.
+        if (PlayerAim.Instance != null && !PlayerAim.Instance.FaceCurrentTarget(range + 1.5f))
+            PlayerAim.Instance.FaceNow(PlayerAim.Instance.AimDirection);   // no enemy in reach: swing toward the mouse
         swinging = true;
         hitDone = false;
         timer = 0f;

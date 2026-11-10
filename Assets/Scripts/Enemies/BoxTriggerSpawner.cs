@@ -106,6 +106,7 @@ public class BoxTriggerSpawner : MonoBehaviour
 
             GameObject spawned = Instantiate(prefab, position, rotation, spawnParent);
             ApplyRespawnSetting(spawned, respawnMarker);
+            if (spawned.GetComponent<AimTarget>() == null) spawned.AddComponent<AimTarget>();
             onSpawned?.Invoke(spawned);
         }
 

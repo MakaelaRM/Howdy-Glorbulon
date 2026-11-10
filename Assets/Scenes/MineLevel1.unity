@@ -14551,6 +14551,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
   controller: {fileID: 1957181733}
   inventoryUI: {fileID: 213192387}
+  facing: 0
+  faceAimWhenIdle: 1
+  aimTurnSpeed: 20
   moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   sprintAction: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -18419,6 +18422,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1957181744}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1957181745}
   m_SourcePrefab: {fileID: 100100000, guid: 84fded65b615b4e62aa12a897964c548, type: 3}
 --- !u!4 &1957181731 stripped
 Transform:
@@ -18853,6 +18859,31 @@ MonoBehaviour:
   ventShake: 2.5
   overheatSound: {fileID: 0}
   cooledSound: {fileID: 0}
+--- !u!114 &1957181745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957181732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c851fbab723b4dae8d300faf638cabe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAim
+  assistRange: 12
+  cursorSnap: 0.07
+  lateralAssistAngle: 12
+  depthAssistAngle: 35
+  stickiness: 0.25
+  showArrow: 1
+  arrowColor: {r: 0.3, g: 0.85, b: 0.3, a: 1}
+  arrowTargetColor: {r: 0.55, g: 1, b: 0.45, a: 1}
+  arrowStart: 0.6
+  chevronSize: 0.2
+  chevronThickness: 0.075
+  arrowMaterial: {fileID: 0}
+  faceAfterAttackTime: 0.45
 --- !u!1001 &1957679867
 PrefabInstance:
   m_ObjectHideFlags: 0
