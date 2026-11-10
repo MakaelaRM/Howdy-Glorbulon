@@ -139,6 +139,18 @@ public class PlayerStats : MonoBehaviour
         Changed?.Invoke();
     }
 
+
+    public void Heal(float amount)
+    {
+        if (IsDead || amount <= 0f)
+            return;
+
+        SetHealth(health + amount);
+    }
+
+
+
+
     public void SetShield(float value)
     {
         value = Mathf.Clamp(value, 0f, maxShield);
@@ -219,4 +231,7 @@ public class PlayerStats : MonoBehaviour
         stat = Mathf.Max(0, stat + amount);
         Changed?.Invoke();
     }
+
+
+
 }

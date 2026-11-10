@@ -22,4 +22,8 @@ public class ItemSO : ScriptableObject
     public int maxStackSize;
     public GameObject itemPrefab;
     public GameObject handItemPrefab;
+
+    [Header("Consumable Settings")]
+    public bool isHealthPotion;
+    public float healingAmount = 25f;
 }
