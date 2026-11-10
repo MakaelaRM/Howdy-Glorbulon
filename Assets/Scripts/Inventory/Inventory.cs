@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
@@ -13,6 +12,23 @@ public class Inventory : MonoBehaviour
 
     public float pickupRange = 3f;
     public Material highlightMaterial;
+
+    [Header("Coins")]
+    [Tooltip("Your Coins ItemSO. One slot always shows the player's money (PlayerStats), so loot crates, " +
+             "the HUD and shops all use the same amount. Leave empty to not show coins in the inventory.")]
+    public ItemSO coinItem;
+
+    // Items are kept here between scenes (town -> mine -> town), so changing scenes doesn't erase them.
+    // Cleared when you stop Play / quit the game.
+    private static ItemSO[] savedItems;
+    private static int[] savedAmounts;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetSavedItems()
+    {
+        savedItems = null;
+        savedAmounts = null;
+    }
 
     private Item lookedAtItem;
 
@@ -42,11 +58,91 @@ public class Inventory : MonoBehaviour
             inventorySlotParent.GetComponentsInChildren<Slot>(true)
         );
 
+        LoadSavedItems();
+
         Debug.Log("Inventory ready. Total slots: " + inventorySlots.Count);
+    }
+
+    // ---------------------------------------------------------------- carry over between scenes
+
+    private void LoadSavedItems()
+    {
+        if (savedItems == null) return;
+
+        int count = Mathf.Min(savedItems.Length, inventorySlots.Count);
+        for (int i = 0; i < count; i++)
+        {
+            if (savedItems[i] != null && savedAmounts[i] > 0)
+                inventorySlots[i].SetItem(savedItems[i], savedAmounts[i]);
+            else
+                inventorySlots[i].ClearSlot();
+        }
+    }
+
+    private void SaveItems()
+    {
+        if (inventorySlots.Count == 0) return;
+
+        if (savedItems == null || savedItems.Length != inventorySlots.Count)
+        {
+            savedItems = new ItemSO[inventorySlots.Count];
+            savedAmounts = new int[inventorySlots.Count];
+        }
+
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            Slot slot = inventorySlots[i];
+            bool has = slot != null && slot.HasItem();
+            savedItems[i] = has ? slot.GetItem() : null;
+            savedAmounts[i] = has ? slot.GetAmount() : 0;
+        }
+    }
+
+    private void OnDisable() { SaveItems(); }
+
+    // ---------------------------------------------------------------- coins
+
+    // Keeps one slot showing the player's money. Coins live in PlayerStats; this slot just displays them.
+    private void SyncCoins()
+    {
+        if (coinItem == null || PlayerStats.Instance == null) return;
+
+        int money = PlayerStats.Instance.Money;
+        Slot coinSlot = null;
+
+        foreach (Slot slot in inventorySlots)
+        {
+            if (slot.HasItem() && slot.GetItem() == coinItem)
+            {
+                if (coinSlot == null) coinSlot = slot;
+                else slot.ClearSlot(); // only ever one coin slot
+            }
+        }
+
+        if (money <= 0)
+        {
+            if (coinSlot != null) coinSlot.ClearSlot();
+            return;
+        }
+
+        if (coinSlot == null)
+        {
+            foreach (Slot slot in inventorySlots)
+            {
+                if (!slot.HasItem()) { coinSlot = slot; break; }
+            }
+            if (coinSlot == null) return; // inventory full; coins are still counted in PlayerStats
+        }
+
+        if (coinSlot.GetAmount() != money)
+            coinSlot.SetItem(coinItem, money);
     }
 
     private void Update()
     {
+        SyncCoins();
+        SaveItems();
+
         if (Keyboard.current == null)
             return;
 
@@ -276,6 +372,14 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(ItemSO itemToAdd, int amount)
     {
+        // Coins picked up anywhere go to the player's money; the coin slot shows it.
+        if (itemToAdd != null && itemToAdd == coinItem)
+        {
+            if (PlayerStats.Instance != null) PlayerStats.Instance.AddMoney(amount);
+            SyncCoins();
+            return;
+        }
+
         int remaining = amount;
 
         // Stack existing items first

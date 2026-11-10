@@ -3190,6 +3190,17 @@ MonoBehaviour:
   pickSpawnPoint: 1
   spawnPointName: MineLevel2Exit
   useSpawnRotation: 0
+  animate: 1
+  style: 3
+  destinationTitle: Mine Entrance
+  destinationSubtitle: 
+  titleFont: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  closeTime: 0.55
+  openTime: 0.6
+  blackTime: 0.6
+  rimColor: {r: 0.92, g: 0.84, b: 0.68, a: 1}
+  titleColor: {r: 0.98, g: 0.95, b: 0.88, a: 1}
+  subtitleColor: {r: 0.96, g: 0.78, b: 0.42, a: 1}
 --- !u!65 &358614472
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10029,6 +10040,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1342107987}
   - component: {fileID: 1342107988}
+  - component: {fileID: 1342107989}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -10069,10 +10081,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a3464524a08c647918189865da3434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
-  medicineItem: {fileID: 11400000, guid: d592beaef750daf458e2e420bb4fdb5b, type: 2}
-  weaponItem: {fileID: 0}
-  hotbarObj: {fileID: 1849356889}
+  player: {fileID: 0}
+  playerInteract: {fileID: 0}
   inventorySlotParent: {fileID: 2130058509}
+  container: {fileID: 105145412}
+  pickupRange: 3
+  highlightMaterial: {fileID: 0}
+  coinItem: {fileID: 11400000, guid: 39c66dfd69ede492ba388af5968af5b5, type: 2}
+--- !u!114 &1342107989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342107986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d12566b75564a67987779eee2864c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryStyle
+  font: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  uiScale: 0.65
+  keepOnScreen: 1
+  screenMargin: 24
+  faceColor: {r: 0.06, g: 0.055, b: 0.07, a: 0.92}
+  rimColor: {r: 0.92, g: 0.84, b: 0.68, a: 1}
+  hoverRimColor: {r: 0.96, g: 0.78, b: 0.42, a: 1}
+  textColor: {r: 0.98, g: 0.95, b: 0.88, a: 1}
+  hintColor: {r: 0.8, g: 0.76, b: 0.7, a: 1}
+  keyColor: {r: 0.96, g: 0.78, b: 0.42, a: 1}
+  rimScale: 1
+  iconPadding: 0.2
+  amountFontSize: 0.24
+  showKeyNumbers: 1
+  keyNumberCount: 6
+  keyFontSize: 0.17
+  hoverScale: 1.06
+  showPanel: 1
+  title: INVENTORY
+  closeHint: Press {key} to close
+  closeKey: I
+  showMoney: 0
+  coinIcon: {fileID: 0}
+  moneyFontSize: 36
+  titleFontSize: 40
+  hintFontSize: 22
+  panelPadding: 24
 --- !u!1 &1348337940
 GameObject:
   m_ObjectHideFlags: 0

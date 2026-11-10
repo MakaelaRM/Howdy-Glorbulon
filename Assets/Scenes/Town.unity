@@ -17469,6 +17469,17 @@ MonoBehaviour:
   pickSpawnPoint: 0
   spawnPointName: 
   useSpawnRotation: 1
+  animate: 1
+  style: 3
+  destinationTitle: Mine Entrance
+  destinationSubtitle: 
+  titleFont: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  closeTime: 0.55
+  openTime: 0.6
+  blackTime: 0.6
+  rimColor: {r: 0.92, g: 0.84, b: 0.68, a: 1}
+  titleColor: {r: 0.98, g: 0.95, b: 0.88, a: 1}
+  subtitleColor: {r: 0.96, g: 0.78, b: 0.42, a: 1}
 --- !u!1 &609851387 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbeb0dde9cd04ab38d63e16f75a3f4b, type: 3}
@@ -19881,7 +19892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff21c3d7759f440ab850b65c4cd9546d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -216.6
+      value: -195.72404
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff21c3d7759f440ab850b65c4cd9546d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21331,7 +21342,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0489bad4a3bf448479d3ca4e6b856f66, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -45.675964
+      value: -24.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0489bad4a3bf448479d3ca4e6b856f66, type: 3}
       propertyPath: m_LocalPosition.y
@@ -39727,6 +39738,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1492931816}
   - component: {fileID: 1492931817}
+  - component: {fileID: 1492931818}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -39773,6 +39785,46 @@ MonoBehaviour:
   container: {fileID: 1380018273}
   pickupRange: 3
   highlightMaterial: {fileID: 2100000, guid: ba7bcda52b7e071478b535d630c3a565, type: 2}
+  coinItem: {fileID: 11400000, guid: 39c66dfd69ede492ba388af5968af5b5, type: 2}
+--- !u!114 &1492931818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492931815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d12566b75564a67987779eee2864c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryStyle
+  font: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  uiScale: 0.65
+  keepOnScreen: 1
+  screenMargin: 24
+  faceColor: {r: 0.06, g: 0.055, b: 0.07, a: 0.92}
+  rimColor: {r: 0.92, g: 0.84, b: 0.68, a: 1}
+  hoverRimColor: {r: 0.96, g: 0.78, b: 0.42, a: 1}
+  textColor: {r: 0.98, g: 0.95, b: 0.88, a: 1}
+  hintColor: {r: 0.8, g: 0.76, b: 0.7, a: 1}
+  keyColor: {r: 0.96, g: 0.78, b: 0.42, a: 1}
+  rimScale: 1
+  iconPadding: 0.2
+  amountFontSize: 0.5
+  showKeyNumbers: 1
+  keyNumberCount: 6
+  keyFontSize: 0.4
+  hoverScale: 1.06
+  showPanel: 1
+  title: INVENTORY
+  closeHint: Press {key} to close
+  closeKey: I
+  showMoney: 0
+  coinIcon: {fileID: 0}
+  moneyFontSize: 36
+  titleFontSize: 40
+  hintFontSize: 22
+  panelPadding: 24
 --- !u!1 &1492998301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 808f0dfc01c8f475d92a2b301b4a2c74, type: 3}
@@ -41224,7 +41276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94328062eb1254cc3a0ac659677d1b55, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -257.7
+      value: -253.79999
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94328062eb1254cc3a0ac659677d1b55, type: 3}
       propertyPath: m_LocalPosition.y
@@ -54932,7 +54984,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 48c16b1a5b4a649dcbaf32436f2ff815, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -257.7
+      value: -253.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 48c16b1a5b4a649dcbaf32436f2ff815, type: 3}
       propertyPath: m_LocalPosition.y
