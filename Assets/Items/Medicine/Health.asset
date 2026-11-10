@@ -17,3 +17,5 @@ MonoBehaviour:
   maxStackSize: 3
   itemPrefab: {fileID: 100004, guid: 668b8f51b964d5d469e7ed2d8187190a, type: 3}
   handItemPrefab: {fileID: 0}
+  isHealthPotion: 1
+  healingAmount: 25
