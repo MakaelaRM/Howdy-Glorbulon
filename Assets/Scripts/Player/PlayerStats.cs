@@ -36,6 +36,11 @@ public class PlayerStats : MonoBehaviour
     private static float shield;
     private static float sinceDamage;
     private static string lastScene;
+
+    // Money, food, drinks and reputation are kept here so they carry over between ALL scenes
+    // (town -> mine -> town). The Starting Values above are only used the first time.
+    private static bool progressSaved;
+    private static int savedMoney, savedFood, savedDrinks, savedRepLevel, savedRepPoints, savedTotalRep;
     private DeathRespawn death;
 
     public event Action Changed;
@@ -67,6 +72,7 @@ public class PlayerStats : MonoBehaviour
         sinceDamage = 0f;
         lastScene = null;
         CarriedOver = false;
+        progressSaved = false;
     }
 
     void Awake()
@@ -90,6 +96,10 @@ public class PlayerStats : MonoBehaviour
             shield = maxShield;
             sinceDamage = 0f;
         }
+
+        // Money, food, drinks and reputation: load what the player had in the last scene
+        if (progressSaved) LoadProgress();
+        else SaveProgress();
 
         death = GetComponent<DeathRespawn>();
         if (death == null) death = gameObject.AddComponent<DeathRespawn>();
@@ -222,6 +232,7 @@ public class PlayerStats : MonoBehaviour
             reputationPoints = 0;
         }
 
+        SaveProgress();
         Changed?.Invoke();
     }
 
@@ -229,9 +240,39 @@ public class PlayerStats : MonoBehaviour
     {
         if (amount == 0) return;
         stat = Mathf.Max(0, stat + amount);
+        SaveProgress();
         Changed?.Invoke();
+    }
+
+    /// Spends money if the player has enough. Returns false (and changes nothing) if not.
+    public bool TrySpendMoney(int amount)
+    {
+        if (amount < 0 || money < amount) return false;
+        Change(ref money, -amount);
+        return true;
+    }
+
+    private void SaveProgress()
+    {
+        savedMoney = money;
+        savedFood = food;
+        savedDrinks = drinks;
+        savedRepLevel = reputationLevel;
+        savedRepPoints = reputationPoints;
+        savedTotalRep = totalReputation;
+        progressSaved = true;
+    }
+
+    private void LoadProgress()
+    {
+        money = savedMoney;
+        food = savedFood;
+        drinks = savedDrinks;
+        reputationLevel = savedRepLevel;
+        reputationPoints = savedRepPoints;
+        totalReputation = savedTotalRep;
     }
 
 
 
-}
+}
