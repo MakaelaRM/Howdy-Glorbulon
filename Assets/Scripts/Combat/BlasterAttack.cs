@@ -128,11 +128,26 @@ public class BlasterAttack : MonoBehaviour
         if (gun == null) return false;
 
         Vector3 muzzlePos = MuzzlePosition(gun);
-        Vector3 dir = gun.forward;
-        if (keepLevel) dir.y = 0f;
-        if (dir.sqrMagnitude < 1e-4f) dir = transform.forward;
-        dir.Normalize();
-        dir = AimAssist(muzzlePos, dir);
+        Vector3 dir;
+        if (PlayerAim.Instance != null)
+        {
+            // Turn to face the shot so the bullet leaves the gun cleanly, then aim again from the new muzzle spot.
+            PlayerAim.Instance.FaceNow(PlayerAim.Instance.GetShotDirection(muzzlePos));
+            muzzlePos = MuzzlePosition(gun);
+            dir = PlayerAim.Instance.GetShotDirection(muzzlePos);
+            if (keepLevel && PlayerAim.Instance.CurrentTarget == null) dir.y = 0f;
+            if (dir.sqrMagnitude < 1e-4f) dir = transform.forward;
+            dir.Normalize();
+        }
+        else
+        {
+            // No PlayerAim on the player: the original aiming.
+            dir = gun.forward;
+            if (keepLevel) dir.y = 0f;
+            if (dir.sqrMagnitude < 1e-4f) dir = transform.forward;
+            dir.Normalize();
+            dir = AimAssist(muzzlePos, dir);
+        }
 
         Vector3 fromBody = muzzlePos - transform.position;
         float behind = Mathf.Max(0f, Vector3.Dot(fromBody, dir));
