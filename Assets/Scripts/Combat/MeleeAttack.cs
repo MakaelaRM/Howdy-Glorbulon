@@ -62,6 +62,7 @@ public class MeleeAttack : MonoBehaviour
     Transform tipWeapon;
     Vector3 tipLocal;
     readonly HashSet<EnemyHitReaction> hitThisSwing = new HashSet<EnemyHitReaction>();
+    readonly HashSet<EggNest> hitNestsThisSwing = new HashSet<EggNest>();
 
     void Awake()
     {
@@ -107,6 +108,7 @@ public class MeleeAttack : MonoBehaviour
         hitDone = false;
         timer = 0f;
         hitThisSwing.Clear();
+        hitNestsThisSwing.Clear();
 
         Transform blade = weapons.melee != null ? weapons.melee.weapon : null;
         if (blade != null && blade != tipWeapon)
@@ -207,6 +209,20 @@ public class MeleeAttack : MonoBehaviour
         foreach (Collider c in Physics.OverlapSphere(origin, range, hitLayers, QueryTriggerInteraction.Collide))
         {
             if (c == null || c.transform.IsChildOf(transform)) continue;
+
+            // egg nests
+            EggNest nest = c.GetComponentInParent<EggNest>();
+            if (nest != null)
+            {
+                if (nest.IsDestroyed || hitNestsThisSwing.Contains(nest)) continue;
+                Vector3 toNest = c.ClosestPoint(origin) - transform.position;
+                toNest.y = 0f;
+                if (toNest.sqrMagnitude > 0.01f && Vector3.Angle(forward, toNest) > arcAngle * 0.5f) continue;
+                hitNestsThisSwing.Add(nest);
+                nest.TakeDamage(damage, transform.position);
+                hitSomething = true;
+                continue;
+            }
 
             EnemyHitReaction enemy = EnemyHitReaction.FindOn(c);
             if (enemy == null || hitThisSwing.Contains(enemy) || EnemyStats.IsDeadOn(enemy)) continue;
