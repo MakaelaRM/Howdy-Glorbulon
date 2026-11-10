@@ -39811,7 +39811,7 @@ MonoBehaviour:
   rimScale: 1
   iconPadding: 0.2
   amountFontSize: 0.5
-  showKeyNumbers: 1
+  showKeyNumbers: 0
   keyNumberCount: 6
   keyFontSize: 0.4
   hoverScale: 1.06

@@ -154,6 +154,7 @@ public class BlasterAttack : MonoBehaviour
         Vector3 castStart = muzzlePos - dir * behind;
 
         SpawnBullet(muzzlePos, dir, castStart);
+        EggNest.ReportShot(castStart, dir, maxDistance, bulletRadius, hitLayers, bulletSpeed, damage, transform);   // egg nests
         BlasterImpact.Spawn(muzzlePos, dir, bulletColor, SolidMaterial(), FxMaterial(), 0.5f, false);
 
         if (shootSound != null && audioSource != null) audioSource.PlayOneShot(shootSound);

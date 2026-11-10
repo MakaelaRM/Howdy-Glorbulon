@@ -10113,7 +10113,7 @@ MonoBehaviour:
   rimScale: 1
   iconPadding: 0.2
   amountFontSize: 0.24
-  showKeyNumbers: 1
+  showKeyNumbers: 0
   keyNumberCount: 6
   keyFontSize: 0.17
   hoverScale: 1.06
