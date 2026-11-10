@@ -5191,9 +5191,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 7f7e8d54b9d268d4da7bc3e314b88dee, type: 3}
+  m_Resource: {fileID: 8300000, guid: 446d18379a9de0049832f4fb219cdf4e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.025
+  m_Volume: 0.27
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5204,7 +5204,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -11688,7 +11688,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.425
+  m_Volume: 0.37
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -11784,8 +11784,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86ed6b9651b94264ead0cadf540a7493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Footsteps
-  footstepClip: {fileID: 8300000, guid: 71d29eec632872e438c6f6481e3d6358, type: 3}
-  stepInterval: 1.25
+  footstepClip: {fileID: 8300000, guid: 996c0f8cc67131649afce3e3f17a342f, type: 3}
+  stepInterval: 0.5
 --- !u!114 &1621966604
 MonoBehaviour:
   m_ObjectHideFlags: 0
