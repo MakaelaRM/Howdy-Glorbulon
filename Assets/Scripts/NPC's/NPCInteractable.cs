@@ -63,6 +63,8 @@ public class NPCInteractable : MonoBehaviour
     
     
 
+    private readonly List<Behaviour> pausedWhileInteracting = new List<Behaviour>();
+
     private bool rewardGiven;
     private bool returnRewardGiven;
     private bool hasVisited;
@@ -187,11 +189,13 @@ public class NPCInteractable : MonoBehaviour
     {
         if (dialogueBubble != null) dialogueBubble.Hide();
         SetHiddenRenderers(true);
+        SetPaused(false);
     }
 
     public void Interact()
     {
         Debug.Log("Interacting with: " + npcName);
+        SetPaused(true);
         onReturnVisit = rewardOnlyOnce && hasVisited;
         hasVisited = true;
         SetHiddenRenderers(false);
@@ -212,12 +216,37 @@ public class NPCInteractable : MonoBehaviour
     public void EnterShop()
     {
         Debug.Log("Opening shop: " + npcName);
+        SetPaused(true);
         SetHiddenRenderers(false);
     }
 
     public void ExitShop()
     {
         SetHiddenRenderers(true);
+        SetPaused(false);
+    }
+
+    private void SetPaused(bool paused)
+    {
+        if (!paused)
+        {
+            foreach (Behaviour b in pausedWhileInteracting)
+                if (b != null) b.enabled = true;
+            pausedWhileInteracting.Clear();
+            return;
+        }
+
+        if (pausedWhileInteracting.Count > 0) return;
+
+        foreach (Behaviour b in GetComponentsInChildren<Behaviour>())
+        {
+            if (!b.enabled || !(b is NpcWalker || b is NpcProceduralAnim || b is AlienBlink || b is Animator)) continue;
+            if (b.GetComponentInParent<SpeechBubble3D>() != null) continue;
+
+            if (b is NpcProceduralAnim anim) anim.ResetPose();
+            b.enabled = false;
+            pausedWhileInteracting.Add(b);
+        }
     }
         
     public void playSoundOnInteract()
@@ -243,10 +272,23 @@ public class NPCInteractable : MonoBehaviour
             return false;
         }
 
-        stats.AddMoney(money);
-        stats.AddFood(food);
-        stats.AddDrinks(drinks);
         stats.AddReputation(reputation);
+
+        if (money != 0 || food != 0 || drinks != 0)
+        {
+            Inventory inventory = Inventory.Find();
+            if (inventory == null)
+            {
+                Debug.LogWarning(npcName + " gives currency, food or drinks but there's no Inventory in the scene.", this);
+                stats.AddMoney(money);
+            }
+            else
+            {
+                inventory.AddCurrency(money);
+                inventory.AddFood(food);
+                inventory.AddDrinks(drinks);
+            }
+        }
         return true;
     }
 

@@ -22346,8 +22346,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   money: 0
-  food: 0
-  drinks: 0
   reputationLevel: 0
   reputationPerLevel: 100
   extraPerLevel: 25

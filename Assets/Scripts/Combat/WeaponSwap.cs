@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 // Put this on the Player Alien (next to NpcProceduralAnim). Two weapons: one melee, one gun.
 //
 //  Town scenes:     both weapons stay holstered and can't be drawn.
-//  Dungeon scenes:  one weapon is always out. Press 1 for melee, 2 for the gun.
+//  Dungeon scenes:  one weapon is always out. Press Tab to swap between melee and the gun.
 //
 //  In hand:   the weapon is placed at his right hand, and the right arm stops swinging.
 //  Holstered: melee on the hip and gun on the back (tick "Melee On Hip" off to swap them).
@@ -196,8 +196,7 @@ public class WeaponSwap : MonoBehaviour
 
     void Update()
     {
-        if (WasPressed(1)) TryEquip(0);
-        else if (WasPressed(2)) TryEquip(1);
+        if (SwapPressed()) TryEquip(CurrentIndex == 0 ? 1 : 0);
     }
 
     // Returns true if the swap happened. Does nothing in town (locked).
@@ -327,19 +326,14 @@ public class WeaponSwap : MonoBehaviour
     }
 
     // Works with either Unity input system.
-    bool WasPressed(int number)
+    bool SwapPressed()
     {
 #if ENABLE_INPUT_SYSTEM
         var kb = Keyboard.current;
-        if (kb != null)
-        {
-            if (number == 1 && (kb.digit1Key.wasPressedThisFrame || kb.numpad1Key.wasPressedThisFrame)) return true;
-            if (number == 2 && (kb.digit2Key.wasPressedThisFrame || kb.numpad2Key.wasPressedThisFrame)) return true;
-        }
+        if (kb != null && kb.tabKey.wasPressedThisFrame) return true;
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-        if (number == 1 && (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))) return true;
-        if (number == 2 && (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))) return true;
+        if (Input.GetKeyDown(KeyCode.Tab)) return true;
 #endif
         return false;
     }

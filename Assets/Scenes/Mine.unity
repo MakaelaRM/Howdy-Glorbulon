@@ -1309,8 +1309,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   money: 0
-  food: 0
-  drinks: 0
   reputationLevel: 0
   reputationPerLevel: 100
   extraPerLevel: 25
@@ -2969,7 +2967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
   controller: {fileID: 243003625}
-  inventoryUI: {fileID: 1113333601}
+  inventoryUI: {fileID: 1823754076}
   facing: 0
   faceAimWhenIdle: 1
   aimTurnSpeed: 20

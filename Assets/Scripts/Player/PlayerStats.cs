@@ -8,8 +8,6 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Starting Values")]
     [SerializeField, Min(0)] private int money = 0;
-    [SerializeField, Min(0)] private int food = 0;   
-    [SerializeField, Min(0)] private int drinks = 0;
     [SerializeField, Min(0)] private int reputationLevel = 0;    
 
     [Header("Reputation")]
@@ -37,10 +35,10 @@ public class PlayerStats : MonoBehaviour
     private static float sinceDamage;
     private static string lastScene;
 
-    // Money, food, drinks and reputation are kept here so they carry over between ALL scenes
+    // Money and reputation are kept here so they carry over between ALL scenes
     // (town -> mine -> town). The Starting Values above are only used the first time.
     private static bool progressSaved;
-    private static int savedMoney, savedFood, savedDrinks, savedRepLevel, savedRepPoints, savedTotalRep;
+    private static int savedMoney, savedRepLevel, savedRepPoints, savedTotalRep;
     private DeathRespawn death;
 
     public event Action Changed;
@@ -48,8 +46,6 @@ public class PlayerStats : MonoBehaviour
     public event Action Respawned;
 
     public int Money => money;
-    public int Food => food;
-    public int Drinks => drinks;
     public int ReputationLevel => reputationLevel;
     public int ReputationPoints => reputationPoints;
     public int PointsToNextLevel => reputationPerLevel + extraPerLevel * reputationLevel;
@@ -97,7 +93,7 @@ public class PlayerStats : MonoBehaviour
             sinceDamage = 0f;
         }
 
-        // Money, food, drinks and reputation: load what the player had in the last scene
+        // Money and reputation: load what the player had in the last scene
         if (progressSaved) LoadProgress();
         else SaveProgress();
 
@@ -136,9 +132,7 @@ public class PlayerStats : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    public void AddMoney(int amount)  => Change(ref money, amount);
-    public void AddFood(int amount)   => Change(ref food, amount);
-    public void AddDrinks(int amount) => Change(ref drinks, amount);
+    public void AddMoney(int amount) => Change(ref money, amount);
 
     public void SetHealth(float value)
     {
@@ -255,8 +249,6 @@ public class PlayerStats : MonoBehaviour
     private void SaveProgress()
     {
         savedMoney = money;
-        savedFood = food;
-        savedDrinks = drinks;
         savedRepLevel = reputationLevel;
         savedRepPoints = reputationPoints;
         savedTotalRep = totalReputation;
@@ -266,8 +258,6 @@ public class PlayerStats : MonoBehaviour
     private void LoadProgress()
     {
         money = savedMoney;
-        food = savedFood;
-        drinks = savedDrinks;
         reputationLevel = savedRepLevel;
         reputationPoints = savedRepPoints;
         totalReputation = savedTotalRep;
@@ -275,4 +265,4 @@ public class PlayerStats : MonoBehaviour
 
 
 
-}
+}
