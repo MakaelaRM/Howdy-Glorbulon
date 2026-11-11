@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 /// Screen-space HUD shown while walking around town
@@ -7,11 +6,6 @@ using TMPro;
 [RequireComponent(typeof(CanvasGroup))]
 public class TownHUD : MonoBehaviour
 {
-    [Header("Stat Counters (top left)")]
-    [SerializeField] private TextMeshProUGUI moneyText;
-    [SerializeField] private TextMeshProUGUI foodText;
-    [SerializeField] private TextMeshProUGUI drinksText;
-
     [Header("Reputation Bar (top right)")]
     [Tooltip("The bar's fill. Its width is driven by its right anchor, so no special sprite is needed.")]
     [SerializeField] private RectTransform reputationFill;
@@ -27,34 +21,28 @@ public class TownHUD : MonoBehaviour
     [Tooltip("How big a number pops when it changes.")]
     [SerializeField] private float punchScale = 1.35f;
     [SerializeField] private float punchDuration = 0.55f;
-    [Tooltip("Color a stat number flashes when it goes up.")]
-    [SerializeField] private Color increaseColor = new Color(0.4f, 1f, 0.45f);
 
     [Header("Popups")]
     [Tooltip("Text under the bar showing +/- rep. Created automatically if left empty.")]
     [SerializeField] private TextMeshProUGUI reputationPopupText;
-    [SerializeField] private TextMeshProUGUI moneyPopupText;
-    [SerializeField] private TextMeshProUGUI foodPopupText;
-    [SerializeField] private TextMeshProUGUI drinksPopupText;
     [SerializeField] private Color reputationGainColor = new Color(0.4f, 1f, 0.45f);
     [SerializeField] private Color reputationLossColor = new Color(1f, 0.35f, 0.3f);
     [Tooltip("How long the popup stays on screen, including its fade out.")]
     [SerializeField] private float popupDuration = 1.8f;
     [Tooltip("How far the popup drifts down while it's showing (pixels).")]
     [SerializeField] private float popupDrift = 14f;
-    [SerializeField] private float statPopupFontSize = 22f;
 
     private CanvasGroup group;
     private PlayerInteract player;
     private PlayerStats stats;
 
-    private int shownMoney, shownFood, shownDrinks, shownLevel, shownTotalRep;
+    private int shownLevel, shownTotalRep;
     private float shownFill;
     private bool synced;
     private float visibleTime;
 
-    private Punch moneyPunch, foodPunch, drinksPunch, levelPunch;
-    private Popup repPopup, moneyPopup, foodPopup, drinksPopup;
+    private Punch levelPunch;
+    private Popup repPopup;
 
     void Awake()
     {
@@ -62,20 +50,11 @@ public class TownHUD : MonoBehaviour
         group.interactable = false;
         group.blocksRaycasts = false;
 
-        moneyPunch  = new Punch(moneyText);
-        foodPunch   = new Punch(foodText);
-        drinksPunch = new Punch(drinksText);
-        levelPunch  = new Punch(reputationLevelText);
+        levelPunch = new Punch(reputationLevelText);
 
         if (reputationPopupText == null) reputationPopupText = CreateRepPopupText();
-        if (moneyPopupText == null)  moneyPopupText  = CreateStatPopupText(moneyText,  "MoneyPopup");
-        if (foodPopupText == null)   foodPopupText   = CreateStatPopupText(foodText,   "FoodPopup");
-        if (drinksPopupText == null) drinksPopupText = CreateStatPopupText(drinksText, "DrinksPopup");
 
-        repPopup    = new Popup(reputationPopupText, " REP");
-        moneyPopup  = new Popup(moneyPopupText, "");
-        foodPopup   = new Popup(foodPopupText, "");
-        drinksPopup = new Popup(drinksPopupText, "");
+        repPopup = new Popup(reputationPopupText, " REP");
     }
 
     void Start()
@@ -111,51 +90,22 @@ public class TownHUD : MonoBehaviour
 
         if (visibleTime >= revealDelay)
         {
-            UpdateCounter(moneyText,  stats.Money,  ref shownMoney,  moneyPunch,  moneyPopup);
-            UpdateCounter(foodText,   stats.Food,   ref shownFood,   foodPunch,   foodPopup);
-            UpdateCounter(drinksText, stats.Drinks, ref shownDrinks, drinksPunch, drinksPopup);
             UpdateReputation(dt);
             CheckReputationPopup();
         }
 
-        moneyPunch.Tick(dt, punchDuration, punchScale);
-        foodPunch.Tick(dt, punchDuration, punchScale);
-        drinksPunch.Tick(dt, punchDuration, punchScale);
         levelPunch.Tick(dt, punchDuration, punchScale);
-
         repPopup.Tick(dt, popupDuration, popupDrift);
-        moneyPopup.Tick(dt, popupDuration, popupDrift);
-        foodPopup.Tick(dt, popupDuration, popupDrift);
-        drinksPopup.Tick(dt, popupDuration, popupDrift);
     }
 
     private void SnapToStats()
     {
-        shownMoney = stats.Money;
-        shownFood = stats.Food;
-        shownDrinks = stats.Drinks;
         shownLevel = stats.ReputationLevel;
         shownFill = stats.ReputationProgress;
         shownTotalRep = stats.TotalReputation;
 
-        SetText(moneyText, shownMoney);
-        SetText(foodText, shownFood);
-        SetText(drinksText, shownDrinks);
         SetText(reputationLevelText, shownLevel);
         SetFill(shownFill);
-    }
-
-    private void UpdateCounter(TextMeshProUGUI text, int value, ref int shown, Punch punch, Popup popup)
-    {
-        if (value == shown) return;
-        int delta = value - shown;
-        shown = value;
-        SetText(text, value);
-
-        if (delta > 0) punch.Play(increaseColor);
-        else punch.Play();
-
-        popup.Show(delta, popupDuration, reputationGainColor, reputationLossColor);
     }
 
     private void UpdateReputation(float dt)
@@ -222,7 +172,16 @@ public class TownHUD : MonoBehaviour
         while (bar != null && bar.name != "Reputation") bar = bar.parent;
         if (bar == null) bar = reputationFill.parent;
 
-        TextMeshProUGUI text = CreatePopupText("ReputationPopup", bar, 28f, TextAlignmentOptions.Right);
+        var go = new GameObject("ReputationPopup", typeof(RectTransform));
+        go.transform.SetParent(bar, false);
+
+        var text = go.AddComponent<TextMeshProUGUI>();
+        if (reputationLevelText != null) text.font = reputationLevelText.font;
+        text.fontSize = 28f;
+        text.alignment = TextAlignmentOptions.Right;
+        text.textWrappingMode = TextWrappingModes.NoWrap;
+        text.raycastTarget = false;
+
         RectTransform rect = text.rectTransform;
         rect.anchorMin = rect.anchorMax = new Vector2(1f, 0f);
         rect.pivot = new Vector2(1f, 1f);
@@ -231,62 +190,20 @@ public class TownHUD : MonoBehaviour
         return text;
     }
 
-    private TextMeshProUGUI CreateStatPopupText(TextMeshProUGUI statText, string name)
-    {
-        if (statText == null || statText.transform.parent == null) return null;
-
-        TextMeshProUGUI text = CreatePopupText(name, statText.transform.parent, statPopupFontSize, TextAlignmentOptions.Center);
-        text.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
-
-        RectTransform rect = text.rectTransform;
-        rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0f);
-        rect.pivot = new Vector2(0.5f, 1f);
-        rect.anchoredPosition = new Vector2(0f, -16f);
-        rect.sizeDelta = new Vector2(120f, 28f);
-        return text;
-    }
-
-    private TextMeshProUGUI CreatePopupText(string name, Transform parent, float size, TextAlignmentOptions alignment)
-    {
-        var go = new GameObject(name, typeof(RectTransform));
-        go.transform.SetParent(parent, false);
-
-        var text = go.AddComponent<TextMeshProUGUI>();
-        if (reputationLevelText != null) text.font = reputationLevelText.font;
-        text.fontSize = size;
-        text.alignment = alignment;
-        text.textWrappingMode = TextWrappingModes.NoWrap;
-        text.raycastTarget = false;
-        return text;
-    }
-
-    // Briefly scales a number up and eases it back down, optionally flashing a color
+    // Briefly scales a number up and eases it back down
     private class Punch
     {
         private readonly TextMeshProUGUI text;
-        private readonly Color baseColor;
-        private Color flashColor;
-        private bool flashing;
         private float time = float.MaxValue;
 
         public Punch(TextMeshProUGUI text)
         {
             this.text = text;
-            if (text != null) baseColor = text.color;
         }
 
         public void Play()
         {
             time = 0f;
-            flashing = false;
-            if (text != null) text.color = baseColor;
-        }
-
-        public void Play(Color flash)
-        {
-            time = 0f;
-            flashing = true;
-            flashColor = flash;
         }
 
         public void Tick(float dt, float duration, float scale)
@@ -297,9 +214,6 @@ public class TownHUD : MonoBehaviour
             float k = Mathf.Clamp01(time / duration);
             float easeOut = 1f - (1f - k) * (1f - k);
             text.transform.localScale = Vector3.one * Mathf.Lerp(scale, 1f, easeOut);
-
-            if (flashing)
-                text.color = Color.Lerp(flashColor, baseColor, Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.6f, 1f, k)));
         }
     }
 

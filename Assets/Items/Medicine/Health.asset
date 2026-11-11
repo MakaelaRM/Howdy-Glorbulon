@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemSO
   itemName: Health
   icon: {fileID: -1051938261474109070, guid: defb4da97f26de841b5e585021f4c5aa, type: 3}
-  maxStackSize: 3
+  maxStackSize: 99
   itemPrefab: {fileID: 100004, guid: 668b8f51b964d5d469e7ed2d8187190a, type: 3}
   handItemPrefab: {fileID: 0}
   isHealthPotion: 1

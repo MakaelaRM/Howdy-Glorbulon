@@ -47,7 +47,7 @@ public class LootCrate : MonoBehaviour
     public int healingItems = 1;
     [Tooltip("Any other items this crate gives.")]
     public List<ItemReward> extraItems = new List<ItemReward>();
-    [Tooltip("Money given when opened. Added to PlayerStats, so the HUD money counter shows it.")]
+    [Tooltip("Money given when opened. Added to PlayerStats, so the Coins slot in the inventory shows it.")]
     public int currency = 25;
     [Tooltip("Fires with the money amount (extra hook; PlayerStats is already updated for you).")]
     public UnityEvent<int> onGiveCurrency;
@@ -529,4 +529,4 @@ public class LootCrate : MonoBehaviour
         Gizmos.color = new Color(1f, 0.8f, 0.2f, 0.6f);
         Gizmos.DrawWireSphere(transform.position, interactRange);
     }
-}
+}

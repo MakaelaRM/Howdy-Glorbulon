@@ -151,11 +151,23 @@ public class ShopMenu : MonoBehaviour
             return;
         }
 
+        Inventory inventory = Inventory.Find();
+        if (inventory == null)
+        {
+            Debug.LogWarning("The shop can't find an Inventory in the scene.", this);
+            return;
+        }
+
         ShopItem item = items[index];
         if (stats.Money < item.cost) return;
+        if (!item.FitsIn(inventory))
+        {
+            Debug.Log("Not enough inventory space to buy " + item.DisplayName + ".", this);
+            return;
+        }
 
         stats.AddMoney(-item.cost);
-        item.ApplyTo(stats);
+        item.ApplyTo(inventory);
 
         flashSlot = slot;
         flashTimer = purchasedFlashTime;
@@ -450,7 +462,21 @@ public class ShopItem
         return builder.ToString();
     }
 
-    public void ApplyTo(PlayerStats stats)
+    public bool FitsIn(Inventory inventory)
+    {
+        if (effects == null) return true;
+
+        int food = 0, drinks = 0;
+        foreach (ShopItemEffect effect in effects)
+        {
+            if (effect == null || effect.amount <= 0) continue;
+            if (effect.stat == ShopStat.Food) food += effect.amount;
+            else if (effect.stat == ShopStat.Drinks) drinks += effect.amount;
+        }
+        return inventory.HasRoomForFoodAndDrinks(food, drinks);
+    }
+
+    public void ApplyTo(Inventory inventory)
     {
         if (effects == null) return;
 
@@ -460,10 +486,10 @@ public class ShopItem
             switch (effect.stat)
             {
                 case ShopStat.Food:
-                    stats.AddFood(effect.amount);
+                    inventory.AddFood(effect.amount);
                     break;
                 case ShopStat.Drinks:
-                    stats.AddDrinks(effect.amount);
+                    inventory.AddDrinks(effect.amount);
                     break;
             }
         }

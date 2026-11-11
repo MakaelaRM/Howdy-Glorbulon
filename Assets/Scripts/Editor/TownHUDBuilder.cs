@@ -10,16 +10,10 @@ public static class TownHUDBuilder
 {
     private const float Margin = 32f;
 
-    private static readonly Color PanelColor  = new Color(0f, 0f, 0f, 0.6f);
     private static readonly Color TrackColor  = new Color(0f, 0f, 0f, 0.7f);
     private static readonly Color FillColor   = new Color32(100, 255, 50, 255);
     private static readonly Color BadgeRim    = new Color32(100, 255, 50, 255);
     private static readonly Color BadgeCenter = new Color(0.08f, 0.08f, 0.08f, 1f);
-
-    // Placeholder icon colors until real sprites are dropped in
-    private static readonly Color MoneyTint  = new Color(1f, 0.82f, 0.2f);
-    private static readonly Color FoodTint   = new Color(0.9f, 0.3f, 0.25f);
-    private static readonly Color DrinksTint = new Color(0.3f, 0.6f, 1f);
 
     [MenuItem("Tools/HUD/Create Town HUD")]
     private static void Create()
@@ -44,23 +38,6 @@ public static class TownHUDBuilder
         var group = root.GetComponent<CanvasGroup>();
         group.interactable = false;
         group.blocksRaycasts = false;
-
-        RectTransform stats = CreateRect("Stats", root.transform);
-        PinToCorner(stats, new Vector2(0f, 1f), new Vector2(Margin, -Margin));
-        Style(stats.gameObject.AddComponent<Image>(), rounded, PanelColor);
-
-        var row = stats.gameObject.AddComponent<HorizontalLayoutGroup>();
-        row.padding = new RectOffset(16, 24, 10, 10);
-        row.spacing = 28f;
-        ConfigureRow(row);
-
-        var fit = stats.gameObject.AddComponent<ContentSizeFitter>();
-        fit.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-        fit.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-        TextMeshProUGUI moneyText  = CreateStat(stats, "Money",  LoadIcon("Icon_Money"),  circle, MoneyTint,  font);
-        TextMeshProUGUI foodText   = CreateStat(stats, "Food",   LoadIcon("Icon_Food"),   circle, FoodTint,   font);
-        TextMeshProUGUI drinksText = CreateStat(stats, "Drinks", LoadIcon("Icon_Drinks"), circle, DrinksTint, font);
 
         const float barHeight = 40f;
         const float badgeSize = 64f;
@@ -99,9 +76,6 @@ public static class TownHUDBuilder
 
         var hud = root.AddComponent<TownHUD>();
         var so = new SerializedObject(hud);
-        so.FindProperty("moneyText").objectReferenceValue = moneyText;
-        so.FindProperty("foodText").objectReferenceValue = foodText;
-        so.FindProperty("drinksText").objectReferenceValue = drinksText;
         so.FindProperty("reputationFill").objectReferenceValue = fill;
         so.FindProperty("reputationLevelText").objectReferenceValue = levelText;
         so.ApplyModifiedPropertiesWithoutUndo();
@@ -109,46 +83,7 @@ public static class TownHUDBuilder
         EnsurePlayerStats();
 
         Selection.activeGameObject = root;
-        Debug.Log("Town HUD created. Drag your icon sprites onto Stats > MoneyIcon, FoodIcon and DrinksIcon.", root);
-    }
-
-    private const string IconFolder = "Assets/UI/Icons/";
-
-    private static Sprite LoadIcon(string name)
-    {
-        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(IconFolder + name + ".png");
-        if (sprite == null)
-            Debug.LogWarning("Couldn't find a sprite at " + IconFolder + name + ".png, using a placeholder. " +
-                             "Make sure its Texture Type is Sprite (2D and UI).");
-        return sprite;
-    }
-
-    private static TextMeshProUGUI CreateStat(Transform parent, string label, Sprite iconSprite,
-                                              Sprite placeholder, Color tint, TMP_FontAsset font)
-    {
-        if (iconSprite != null)
-        {
-            placeholder = iconSprite;
-            tint = Color.white;
-        }
-
-        RectTransform entry = CreateRect(label, parent);
-        var layout = entry.gameObject.AddComponent<HorizontalLayoutGroup>();
-        layout.spacing = 10f;
-        ConfigureRow(layout);
-
-        RectTransform iconRect = CreateRect(label + "Icon", entry);
-        var icon = iconRect.gameObject.AddComponent<Image>();
-        Style(icon, placeholder, tint);
-        icon.preserveAspect = true;
-        var iconSize = iconRect.gameObject.AddComponent<LayoutElement>();
-        iconSize.minWidth = iconSize.preferredWidth = 44f;
-        iconSize.minHeight = iconSize.preferredHeight = 44f;
-
-        TextMeshProUGUI text = CreateText(label + "Text", entry, font, 36f, TextAlignmentOptions.MidlineLeft);
-        var textSize = text.gameObject.AddComponent<LayoutElement>();
-        textSize.minWidth = 48f;
-        return text;
+        Debug.Log("Town HUD created.", root);
     }
 
     private static TextMeshProUGUI CreateText(string name, Transform parent, TMP_FontAsset font,
@@ -164,15 +99,6 @@ public static class TownHUDBuilder
         text.raycastTarget = false;
         text.text = "0";
         return text;
-    }
-
-    private static void ConfigureRow(HorizontalLayoutGroup row)
-    {
-        row.childAlignment = TextAnchor.MiddleLeft;
-        row.childControlWidth = true;
-        row.childControlHeight = true;
-        row.childForceExpandWidth = false;
-        row.childForceExpandHeight = false;
     }
 
     private static RectTransform CreateRect(string name, Transform parent)

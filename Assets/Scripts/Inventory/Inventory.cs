@@ -15,8 +15,16 @@ public class Inventory : MonoBehaviour
 
     [Header("Coins")]
     [Tooltip("Your Coins ItemSO. One slot always shows the player's money (PlayerStats), so loot crates, " +
-             "the HUD and shops all use the same amount. Leave empty to not show coins in the inventory.")]
+             "NPCs and shops all use the same amount. Leave empty to not show coins in the inventory.")]
     public ItemSO coinItem;
+
+    [Header("Food & Drinks")]
+    [Tooltip("Food given by NPC rewards and shop purchases. Shows in the inventory but can't be used yet.")]
+    public ItemSO foodItem;
+    [Tooltip("Drinks given by NPC rewards and shop purchases are health potions: drag the Health ItemSO here.")]
+    public ItemSO drinksItem;
+
+    public static Inventory Find() => FindAnyObjectByType<Inventory>(FindObjectsInactive.Include);
 
     // Items are kept here between scenes (town -> mine -> town), so changing scenes doesn't erase them.
     // Cleared when you stop Play / quit the game.
@@ -425,6 +433,81 @@ public class Inventory : MonoBehaviour
                 "Not enough inventory space. Remaining: " + remaining
             );
         }
+    }
+
+    public void RemoveItem(ItemSO itemToRemove, int amount)
+    {
+        for (int i = inventorySlots.Count - 1; i >= 0 && amount > 0; i--)
+        {
+            Slot slot = inventorySlots[i];
+            if (!slot.HasItem() || slot.GetItem() != itemToRemove)
+                continue;
+
+            int taken = Mathf.Min(amount, slot.GetAmount());
+            slot.RemoveAmount(taken);
+            amount -= taken;
+        }
+    }
+
+    public bool HasRoomForFoodAndDrinks(int food, int drinks)
+    {
+        if (foodItem != null && foodItem == drinksItem)
+            return EmptySlotsNeeded(foodItem, food + drinks) <= EmptySlotCount();
+
+        return EmptySlotsNeeded(foodItem, food) + EmptySlotsNeeded(drinksItem, drinks) <= EmptySlotCount();
+    }
+
+    private int EmptySlotsNeeded(ItemSO item, int amount)
+    {
+        if (item == null || amount <= 0 || item == coinItem)
+            return 0;
+
+        foreach (Slot slot in inventorySlots)
+        {
+            if (slot.HasItem() && slot.GetItem() == item)
+                amount -= Mathf.Max(0, item.maxStackSize - slot.GetAmount());
+        }
+
+        int stack = Mathf.Max(1, item.maxStackSize);
+        return amount <= 0 ? 0 : (amount + stack - 1) / stack;
+    }
+
+    private int EmptySlotCount()
+    {
+        int count = 0;
+        foreach (Slot slot in inventorySlots)
+        {
+            if (!slot.HasItem())
+                count++;
+        }
+        return count;
+    }
+
+    public void AddCurrency(int amount)
+    {
+        if (amount == 0 || PlayerStats.Instance == null)
+            return;
+
+        PlayerStats.Instance.AddMoney(amount);
+        SyncCoins();
+    }
+
+    public void AddFood(int amount) => GiveItem(foodItem, amount, "Food");
+    public void AddDrinks(int amount) => GiveItem(drinksItem, amount, "Drinks");
+
+    private void GiveItem(ItemSO item, int amount, string label)
+    {
+        if (amount == 0)
+            return;
+
+        if (item == null)
+        {
+            Debug.LogWarning("Inventory has no " + label + " Item assigned, so " + amount + " " + label.ToLower() + " wasn't given.", this);
+            return;
+        }
+
+        if (amount > 0) AddItem(item, amount);
+        else RemoveItem(item, -amount);
     }
 
     private void OnDrawGizmosSelected()
@@ -1056,4 +1139,4 @@ public class Inventory : MonoBehaviour
 //    //    }
 
 //    //}
-//}
+//}

@@ -108,6 +108,25 @@ public class NpcProceduralAnim : MonoBehaviour
         idleTime = Random.Range(0f, 10f); // so NPCs don't breathe in sync
     }
 
+    public void ResetPose()
+    {
+        if (bobParts == null) return;
+
+        for (int i = 0; i < bobParts.Length; i++)
+            if (bobParts[i] != null) bobParts[i].localPosition = bobStart[i];
+
+        if (head != null) head.localRotation = headStartRot;
+        if (legL != null) legL.localRotation = legLStart;
+        if (legR != null) legR.localRotation = legRStart;
+        if (armL != null) armL.localRotation = armLStart;
+        if (armR != null)
+            armR.localRotation = armRHeld ? armRStart * Quaternion.AngleAxis(armRHeldAngle, swingAxis.normalized) : armRStart;
+
+        moveAmount = 0f;
+        walkPhase = 0f;
+        lastPos = transform.position;
+    }
+
     void LateUpdate()
     {
         float dt = Time.deltaTime;
