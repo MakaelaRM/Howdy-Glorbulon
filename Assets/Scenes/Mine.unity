@@ -6365,6 +6365,8 @@ MonoBehaviour:
   pickupRange: 3
   highlightMaterial: {fileID: 0}
   coinItem: {fileID: 11400000, guid: 39c66dfd69ede492ba388af5968af5b5, type: 2}
+  foodItem: {fileID: 0}
+  drinksItem: {fileID: 0}
 --- !u!114 &1320286911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6390,9 +6392,9 @@ MonoBehaviour:
   rimScale: 1
   iconPadding: 0.2
   amountFontSize: 0.24
-  showKeyNumbers: 0
+  showKeyNumbers: 1
   keyNumberCount: 6
-  keyFontSize: 0.17
+  keyFontSize: 0.2
   hoverScale: 1.06
   showPanel: 1
   title: INVENTORY
