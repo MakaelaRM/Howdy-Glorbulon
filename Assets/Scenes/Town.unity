@@ -39293,9 +39293,9 @@ MonoBehaviour:
   rimScale: 1
   iconPadding: 0.2
   amountFontSize: 0.5
-  showKeyNumbers: 0
+  showKeyNumbers: 1
   keyNumberCount: 6
-  keyFontSize: 0.4
+  keyFontSize: 0.2
   hoverScale: 1.06
   showPanel: 1
   title: INVENTORY
