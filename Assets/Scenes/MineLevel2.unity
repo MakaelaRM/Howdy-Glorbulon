@@ -11572,7 +11572,7 @@ MonoBehaviour:
   recoilAngle: 12
   recoilKickBack: 0.06
   recoilTime: 0.15
-  shootSound: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: 4c873fd6f3fda8f4c81f8ff65b1d1151, type: 3}
   hitSound: {fileID: 0}
 --- !u!114 &1621966599
 MonoBehaviour:
@@ -11608,8 +11608,8 @@ MonoBehaviour:
   trailColor: {r: 0.45, g: 1, b: 1, a: 0.85}
   trailWidth: 0.18
   trailTime: 0.12
-  swingSound: {fileID: 0}
-  hitSound: {fileID: 0}
+  swingSound: {fileID: 8300000, guid: f6ff542108c24a04cb4032caa488f4c9, type: 3}
+  hitSound: {fileID: 8300000, guid: 380217dd889d94b49823df9a092877f5, type: 3}
 --- !u!114 &1621966600
 MonoBehaviour:
   m_ObjectHideFlags: 0
