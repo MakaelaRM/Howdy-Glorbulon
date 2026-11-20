@@ -62,7 +62,12 @@ public class PlayerInteract : MonoBehaviour
                 contentShown = true;
             }
 
-            if ((!inShop && interactAction.WasPressedThisFrame()) || (inShop && shopAction.WasPressedThisFrame()))
+            if (!inShop && interactAction.WasPressedThisFrame())
+            {
+                // PAGES: E shows the next page of dialogue; on the last page it ends the conversation
+                if (!contentShown || !interactingNPC.NextPage()) EndInteraction();
+            }
+            else if (inShop && shopAction.WasPressedThisFrame())
                 EndInteraction();
             return;
         }

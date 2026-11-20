@@ -15,7 +15,12 @@ public class InventoryStyle : MonoBehaviour
     public TMP_FontAsset font;
 
     [Header("Size")]
-    [Tooltip("Overall size of the inventory. 1 = how it's laid out in your scene.")]
+    [Tooltip("On: the inventory is always the same share of the screen, on any resolution (set below). " +
+             "Off: use UI Scale.")]
+    public bool fitToScreen = true;
+    [Tooltip("How much of the screen's height the whole inventory window takes (0.6 = 60%).")]
+    [Range(0.2f, 0.95f)] public float screenHeight = 0.6f;
+    [Tooltip("Only used when Fit To Screen is off. 1 = how it's laid out in your scene.")]
     [Range(0.3f, 1.5f)] public float uiScale = 0.65f;
     [Tooltip("Keep the whole panel on screen (moves it in if the title or bottom would be cut off).")]
     public bool keepOnScreen = true;
@@ -74,6 +79,17 @@ public class InventoryStyle : MonoBehaviour
     bool hasOriginal;
     Vector2 originalPos;
     Vector3 originalScale;
+    Vector2Int lastScreen;
+
+    // ---- for QuestLogUI (and other add-ons) to match the inventory's look
+    /// The window behind the slots (built at runtime).
+    public RectTransform Panel { get; private set; }
+    public Sprite RimSprite => rimSprite;
+    public Sprite HoverSprite => hoverSprite;
+    public float TitleSpace => string.IsNullOrEmpty(title) ? 0f : titleFontSize * 1.6f;
+    public float HintSpace => string.IsNullOrEmpty(closeHint) ? 0f : hintFontSize * 1.8f;
+    /// Fires after the style is (re)applied.
+    public event System.Action Applied;
 
     class SlotLook
     {
@@ -94,6 +110,10 @@ public class InventoryStyle : MonoBehaviour
         // Re-style the first time the inventory is opened: some text can only be finished while it's visible.
         bool open = styledParent && styledParent.gameObject.activeInHierarchy;
         if (open && !styledWhileOpen) { styledWhileOpen = true; Apply(); }
+
+        // window resized / resolution changed: fit again
+        var screen = new Vector2Int(Screen.width, Screen.height);
+        if (screen != lastScreen) { lastScreen = screen; if (open) Apply(); }
 
         if (moneyText && PlayerStats.Instance && shownMoney != PlayerStats.Instance.Money)
         {
@@ -175,7 +195,30 @@ public class InventoryStyle : MonoBehaviour
         }
         else { Transform p = slotParent.Find("StylePanel"); if (p) p.gameObject.SetActive(false); }
 
+        if (fitToScreen && sp && sp.gameObject.activeInHierarchy) FitToScreen(sp);
         if (keepOnScreen && sp && sp.gameObject.activeInHierarchy) KeepOnScreen(sp);
+        Applied?.Invoke();
+    }
+
+    // Scales the inventory so the window is the same share of the screen on every resolution.
+    void FitToScreen(RectTransform sp)
+    {
+        Canvas.ForceUpdateCanvases();
+        Transform panelT = sp.Find("StylePanel");
+        RectTransform box = panelT && panelT.gameObject.activeSelf ? (RectTransform)panelT : sp;
+        Canvas canvas = sp.GetComponentInParent<Canvas>();
+        Camera cam = canvas && canvas.rootCanvas.renderMode != RenderMode.ScreenSpaceOverlay ? canvas.rootCanvas.worldCamera : null;
+
+        var corners = new Vector3[4];
+        box.GetWorldCorners(corners);
+        Vector2 a = RectTransformUtility.WorldToScreenPoint(cam, corners[0]);
+        Vector2 b = RectTransformUtility.WorldToScreenPoint(cam, corners[2]);
+        float h = Mathf.Abs(b.y - a.y), w = Mathf.Abs(b.x - a.x);
+        if (h < 1f || w < 1f) return;
+
+        float factor = Screen.height * screenHeight / h;
+        factor = Mathf.Min(factor, Screen.width * 0.92f / w);       // never wider than the screen
+        sp.localScale *= factor;
     }
 
     // Moves the inventory so the whole panel (title included) is inside the screen.
@@ -291,7 +334,9 @@ public class InventoryStyle : MonoBehaviour
     void StylePanel(Transform slotParent)
     {
         Transform existing = slotParent.Find("StylePanel");
+        if (existing) Panel = (RectTransform)existing;
         GameObject panel = existing ? existing.gameObject : new GameObject("StylePanel", typeof(RectTransform), typeof(Image), typeof(LayoutElement));
+        Panel = (RectTransform)panel.transform;
         panel.SetActive(true);
         panel.transform.SetParent(slotParent, false);
         panel.transform.SetAsFirstSibling();                       // drawn behind the slots

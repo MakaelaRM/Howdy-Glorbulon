@@ -10041,6 +10041,7 @@ GameObject:
   - component: {fileID: 1342107987}
   - component: {fileID: 1342107988}
   - component: {fileID: 1342107989}
+  - component: {fileID: 1342107990}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -10103,6 +10104,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryStyle
   font: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  fitToScreen: 1
+  screenHeight: 0.6
   uiScale: 0.65
   keepOnScreen: 1
   screenMargin: 24
@@ -10129,6 +10132,24 @@ MonoBehaviour:
   titleFontSize: 40
   hintFontSize: 22
   panelPadding: 24
+--- !u!114 &1342107990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342107986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aabd98a7c626410a8920db2cda28e50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestLogUI
+  font: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  inventoryPanel: {fileID: 0}
+  switchTabKey: 3
+  questTitleSize: 0.95
+  stepTextSize: 0.72
+  descriptionSize: 0.45
 --- !u!1 &1348337940
 GameObject:
   m_ObjectHideFlags: 0

@@ -154,6 +154,10 @@ public class QueenNibblerBoss : MonoBehaviour
     public AudioClip screechSound;
     public AudioClip defeatSound;
 
+    [Header("Quests")]
+    [Tooltip("Quest event sent when she's defeated. A quest step of type Event with this Event Id completes.")]
+    public string questEventId = "QueenNibbler";
+
     [Header("Events")]
     public UnityEvent onFightStarted;
     public UnityEvent onPhase2;
@@ -917,6 +921,7 @@ public class QueenNibblerBoss : MonoBehaviour
 
         // the reward drops from above
         if (lootCratePrefab) StartCoroutine(DropCrate());
+        QuestManager.TriggerEvent(questEventId);
         onDefeated.Invoke();
         // DeathRespawn hides her with a puff of goo smoke a moment later
     }

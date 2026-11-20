@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376e1401cdce24ef28be1645dc5cac05, type: 3}
+  m_Name: QuestTest
+  m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  questName: A Word With the Sheriff
+  description: Check in with the Sheriff so he can make sure you are not a threat to their planet.
+  steps:
+  - logText: Talk to the Sheriff
+    type: 0
+    npcId: Sheriff
+    item: {fileID: 0}
+    amount: 0
+    eventId: 
+  - logText: Report back to the Mayor
+    type: 0
+    npcId: Mayor
+    item: {fileID: 0}
+    amount: 0
+    eventId: 
+  moneyReward: 50
+  reputationReward: 200
+  itemRewards: []
