@@ -3694,7 +3694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95c64e0778f40354b86ae41d86a125a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteractable
-  npcName: Restaurant Host
+  npcName: Shopkeeper
   chatBubblePrefab: {fileID: 8118450732210544728, guid: 6eb2ca46f0da35e4c87e18c45bd6b1bf, type: 3}
   promptAnchorOffset: {x: 0, y: 0.12}
   promptTilt: 0.5
@@ -14513,6 +14513,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: db49342c08c3e46f99d41b183cdfe497, type: 3}
       insertIndex: -1
       addedObject: {fileID: 507092596}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: db49342c08c3e46f99d41b183cdfe497, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 507092597}
   m_SourcePrefab: {fileID: 100100000, guid: db49342c08c3e46f99d41b183cdfe497, type: 3}
 --- !u!4 &507092590 stripped
 Transform:
@@ -14730,6 +14733,34 @@ MonoBehaviour:
   maxSecondsBetweenBlinks: 4
   blinkDuration: 0.15
   doubleBlinkChance: 0.1
+--- !u!114 &507092597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507092591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46ba3d0e6e8f44908f81991f36e45f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestNPC
+  questId: Sheriff
+  showMarker: 1
+  popupFont: {fileID: 0}
+  askToAccept: 0
+  acceptKey: 20
+  quests:
+  - quest: {fileID: 11400000, guid: 6c3d3b55c5a464a78a96aa55b6bfd0be, type: 2}
+    givesQuest: 0
+    offerText: 
+    acceptedText: 
+    stepLines:
+    - stepNumber: 1
+      text: The Mayor sent you? So are you a threat? | Glad to hear that! Welcome to our planet partner!
+    missingItemText: 
+    waitingText: 
+    doneText: 
 --- !u!1 &510356046 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3924390359808885084, guid: 8bbeb0dde9cd04ab38d63e16f75a3f4b, type: 3}
@@ -30055,6 +30086,34 @@ MonoBehaviour:
   maxSecondsBetweenBlinks: 4
   blinkDuration: 0.15
   doubleBlinkChance: 0.1
+--- !u!114 &1139858303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139858296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46ba3d0e6e8f44908f81991f36e45f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestNPC
+  questId: Mayor
+  showMarker: 1
+  popupFont: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  askToAccept: 0
+  acceptKey: 20
+  quests:
+  - quest: {fileID: 11400000, guid: 6c3d3b55c5a464a78a96aa55b6bfd0be, type: 2}
+    givesQuest: 1
+    offerText: Howdy partner, go see the Sheriff. He's got to make sure you're not here to blast us all up... You aren't right?
+    acceptedText: 
+    stepLines:
+    - stepNumber: 2
+      text: 'So the Sheriff sent you back and you aren''t a threat? Good good. '
+    missingItemText: 
+    waitingText: Well? Go on, the Sheriff's waiting.
+    doneText: Thanks again, partner.
 --- !u!1 &1140312270 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3924390359808885084, guid: 8bbeb0dde9cd04ab38d63e16f75a3f4b, type: 3}
@@ -39230,6 +39289,7 @@ GameObject:
   - component: {fileID: 1492931816}
   - component: {fileID: 1492931817}
   - component: {fileID: 1492931818}
+  - component: {fileID: 1492931819}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -39292,6 +39352,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryStyle
   font: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  fitToScreen: 1
+  screenHeight: 0.6
   uiScale: 0.65
   keepOnScreen: 1
   screenMargin: 24
@@ -39318,6 +39380,27 @@ MonoBehaviour:
   titleFontSize: 40
   hintFontSize: 22
   panelPadding: 24
+--- !u!114 &1492931819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492931815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aabd98a7c626410a8920db2cda28e50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestLogUI
+  font: {fileID: 11400000, guid: f3ec503a311b4b447bf0946d3b1b74c9, type: 2}
+  inventoryPanel: {fileID: 0}
+  switchTabKey: 3
+  pauseGame: 1
+  blockWeapons: 1
+  alsoDisable: []
+  questTitleSize: 0.95
+  stepTextSize: 0.72
+  descriptionSize: 0.45
 --- !u!1 &1492998301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 808f0dfc01c8f475d92a2b301b4a2c74, type: 3}
@@ -44669,7 +44752,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3942e81f275bf431fbca2416df59eaf9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -39.76
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3942e81f275bf431fbca2416df59eaf9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -44677,7 +44760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3942e81f275bf431fbca2416df59eaf9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.11
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3942e81f275bf431fbca2416df59eaf9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -44730,6 +44813,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3942e81f275bf431fbca2416df59eaf9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1139858302}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3942e81f275bf431fbca2416df59eaf9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1139858303}
   m_SourcePrefab: {fileID: 100100000, guid: 3942e81f275bf431fbca2416df59eaf9, type: 3}
 --- !u!1 &1705413986 stripped
 GameObject:

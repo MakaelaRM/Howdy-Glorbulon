@@ -70,6 +70,12 @@ public class NPCInteractable : MonoBehaviour
     private bool hasVisited;
     private bool onReturnVisit;
 
+    private QuestNPC questNPC;                 // QUEST: optional quest dialogue on this NPC
+    private string lastExitKeyName;           // QUEST: so the dialogue can refresh after accepting a quest
+    private Transform lastViewer;
+    private string[] pages;                   // PAGES: dialogue split on |
+    private int page;
+
     private SpeechBubble3D promptBubble;
     private SpeechBubble3D dialogueBubble;
     private float promptBaseScale = 1f;
@@ -103,6 +109,7 @@ public class NPCInteractable : MonoBehaviour
         if (string.IsNullOrEmpty(npcName))
             npcName = gameObject.name;
         modelHeight = GetTopOfModel() - transform.position.y;
+        questNPC = GetComponent<QuestNPC>();   // QUEST
 
         promptBubble = SpawnBubble(chatBubblePrefab, "Chat Bubble Prefab", out promptBaseScale);
         dialogueBubble = SpawnBubble(dialogueBubblePrefab, "Dialogue Bubble Prefab", out dialogueBaseScale);
@@ -148,7 +155,8 @@ public class NPCInteractable : MonoBehaviour
             prompt += ", " + promptBubble.HighlightKey(shopKeyName) + " to shop";
         else if (hasShop)
             prompt += ", can shop at " + promptBubble.HighlightLevel(shopMinReputation);
-        promptBubble.SetContent(npcName, prompt);
+        string shownName = questNPC != null ? questNPC.DecorateName(npcName) : npcName;   // QUEST: gold ! when they have a quest
+        promptBubble.SetContent(shownName, prompt);
 
         Transform view = Camera.main != null ? Camera.main.transform : null;
         GetViewAxes(view, out Vector3 right, out Vector3 flatForward);
@@ -170,8 +178,36 @@ public class NPCInteractable : MonoBehaviour
     {
         if (dialogueBubble == null) return;
 
+        lastExitKeyName = exitKeyName;
+        lastViewer = viewer;
         string text = onReturnVisit && !string.IsNullOrEmpty(returnDialogueText) ? returnDialogueText : dialogueText;
-        dialogueBubble.SetContent(text, "Press " + dialogueBubble.HighlightKey(exitKeyName) + " to escape");
+        if (questNPC != null && questNPC.HasLine) text = questNPC.Line;                    // QUEST: quest dialogue
+
+        // PAGES: put | in any dialogue text to split it into pages ("Press E to continue" between them)
+        pages = (text ?? "").Split('|');
+        for (int i = 0; i < pages.Length; i++) pages[i] = pages[i].Trim();
+        page = 0;
+        ShowPage();
+    }
+
+    /// PAGES: shows the next page. Returns false when there are no more (the conversation can end).
+    public bool NextPage()
+    {
+        if (pages == null || page >= pages.Length - 1 || dialogueBubble == null) return false;
+        page++;
+        ShowPage();
+        return true;
+    }
+
+    private void ShowPage()
+    {
+        Transform viewer = lastViewer;
+        bool last = page >= pages.Length - 1;
+        string key = dialogueBubble.HighlightKey(lastExitKeyName);
+        string promptLine = last ? "Press " + key + " to escape" : "Press " + key + " to continue";
+        if (last && questNPC != null && questNPC.AcceptPending)                           // QUEST: accept on the last page
+            promptLine += ", " + dialogueBubble.HighlightKey(questNPC.AcceptKeyName) + " to accept";
+        dialogueBubble.SetContent(pages[page], promptLine);
 
         GetViewAxes(viewer, out Vector3 right, out Vector3 flatForward);
         Vector3 anchor = HeadTop + right * dialogueAnchorOffset.x + Vector3.up * dialogueAnchorOffset.y;
@@ -185,8 +221,16 @@ public class NPCInteractable : MonoBehaviour
         dialogueBubble.Show();
     }
 
+    /// QUEST: shows the dialogue again with the latest text (e.g. after accepting a quest).
+    public void RefreshDialogue()
+    {
+        if (dialogueBubble != null && dialogueBubble.IsShown && lastExitKeyName != null)
+            ShowDialogue(lastExitKeyName, lastViewer);
+    }
+
     public void HideDialogue()
     {
+        if (questNPC != null) questNPC.OnDialogueClosed();   // QUEST
         if (dialogueBubble != null) dialogueBubble.Hide();
         SetHiddenRenderers(true);
         SetPaused(false);
@@ -195,6 +239,7 @@ public class NPCInteractable : MonoBehaviour
     public void Interact()
     {
         Debug.Log("Interacting with: " + npcName);
+        if (questNPC != null) questNPC.OnInteract();   // QUEST: picks quest dialogue and advances quests
         SetPaused(true);
         onReturnVisit = rewardOnlyOnce && hasVisited;
         hasVisited = true;
