@@ -4,11 +4,13 @@ public class Footsteps : MonoBehaviour
 {
     private AudioSource audioSource;
     [SerializeField] private AudioClip footstepClip;
-    
+
+    [SerializeField, Range(0f, 1f)] private float footstepVolume = 1f;
+
     [SerializeField] private float stepInterval = 1.25f;
     private float stepTimer;
 
-    private CharacterController characterController; 
+    private CharacterController characterController;
 
     void Start()
     {
@@ -18,7 +20,6 @@ public class Footsteps : MonoBehaviour
 
     void Update()
     {
-        
         if (characterController.isGrounded && characterController.velocity.magnitude > 0.1f)
         {
             stepTimer -= Time.deltaTime;
@@ -26,17 +27,17 @@ public class Footsteps : MonoBehaviour
             if (stepTimer <= 0)
             {
                 PlayRandomFootstep();
-                stepTimer = stepInterval; 
+                stepTimer = stepInterval;
             }
         }
         else
         {
-            stepTimer = 0.5f; 
+            stepTimer = 0.5f;
         }
     }
 
     void PlayRandomFootstep()
     {
-        audioSource.PlayOneShot(footstepClip);
+        audioSource.PlayOneShot(footstepClip, footstepVolume);
     }
 }
