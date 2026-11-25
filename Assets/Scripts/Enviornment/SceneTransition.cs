@@ -37,6 +37,10 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] private Color titleColor = new Color(0.98f, 0.95f, 0.88f);
     [SerializeField] private Color subtitleColor = new Color(0.96f, 0.78f, 0.42f);
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] public AudioClip transitionSound;
+
+
     // Remembered across the scene load.
     static string pendingSpawnName;
     static bool pendingUseRotation;
@@ -44,6 +48,7 @@ public class SceneTransition : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Init()
     {
+        
         pendingSpawnName = null;
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -51,6 +56,8 @@ public class SceneTransition : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.PlayOneShot(transitionSound);
         if (other.CompareTag("Player"))
         {
             if (SceneTransitionOverlay.Busy) return;   // already changing scene
